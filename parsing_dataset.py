@@ -41,6 +41,16 @@ def get_item_entries(data_model, attributes):
     # Iterate the attribute to build list
     for i, attribute_entry in attributes:
 
+        component_name = attribute_entry['component']
+        attribute_name = attribute_entry['attribute']
+
+        sql_query =  attribute_entry['query']
+        bbox_points = attribute_entry['bbox_pts']
+
+
+
+
+
     return 0
 
 def augment_training_data(training_list):

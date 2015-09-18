@@ -66,7 +66,6 @@ class GarmentDataModel:
                PARAMS            | TYPE                   | DESCRIPTION
             1. hostname          | String                 | host name for MySQL connection
 
-            
         """
 
         self.cursor.execute(query_string)
