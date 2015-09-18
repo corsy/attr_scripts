@@ -7,14 +7,31 @@
 """
 import codecs
 
-
-
 def parsing_attribute_configfile(config_file_path):
 
     """
     Parsing attributes configuration file
-    INPUT: attributes configuration file path
-    OUTPUT: attributes information table
+
+    CSV file format as follows:
+
+        component,          # Component name
+        attribute,          # Attribute name
+        label_db_schema,    # Database schema that store the attribute label
+        label_db_fieldname,
+        label_db_fieldvalue,
+        bbox_db_schema,     # Attribute corresponding bounding box schema
+        bbox_db_pts,
+        image_query,        # SQL query string used for searching image
+        bbox_query          # SQL query string used for searching bounding box infomation
+
+    INPUT:
+       PARAMS            | TYPE                   | DESCRIPTION
+    1. config_file_path  | String                 | Attributes configuration file path
+
+    OUTPUT:
+        PARAMS           | TYPE                   | DESCRIPTION
+    1. attribute_list    | List                   | Attributes information table
+
     """
 
     # Open configuration file
@@ -27,7 +44,10 @@ def parsing_attribute_configfile(config_file_path):
 
     # Read line-by-line to parsing attribute files
     while 1:
+
+        # Read into buffer to speed up
         lines = config_file.readlines(100000)
+
         if not lines:
             break
         for line in lines:
@@ -53,12 +73,3 @@ def parsing_attribute_configfile(config_file_path):
     config_file.close()
 
     return attribute_list
-
-"""
-    Test parsing attributes
-"""
-import config as cfg
-if __name__ == '__main__':
-    attributes = parsing_attribute_configfile(cfg.attribute_file_path)
-
-    print 'attributes:', len(attributes)
