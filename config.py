@@ -4,6 +4,7 @@
 """
     Configuration attributes
 """
+import math
 
 """
     MySQL connection configurations
@@ -62,8 +63,11 @@ test_list_path = ''
 test_size = dataset_total_images - (train_size + validation_size)
 
 """
-    Augmentation configuration
+    Dataset and augmentation configuration
 """
+# Zooming the bounding box to 1.3x
+base_bbox_zooming_factor = 1.3
+
 # Set the factor of augment
 # e.g. if set 'augment_factor' = 20, their will be
 # 20 more images per training item
@@ -72,3 +76,19 @@ augment_factor = 20
 # Set what percentage of data need to be flipped, if set 'flip_percent' = 1.0
 # all item will be flipped, default = 0.5
 flip_percent = 0.5
+
+# Set distribution method
+# the distribution can be 'Gaussian' or 'Uniform'
+distribution_method = 'Gaussian'
+
+# Set what percentage of data need to be randomly translation
+translate_factor =
+
+# Set what percentage of data need to be randomly rotate
+rotate_factor =
+
+# Set the maximum of rotation, the rotate range is
+# (-rotate_max_angle, rotate_max_angle)
+rotate_max_angle = math.pi / 2
+
+#
