@@ -7,9 +7,10 @@
     the attributes that has configured.
 """
 import config as cfg
+import sys
+from random import shuffle
 from attributes import parsing_attribute_configfile
 from datamodel import GarmentDataModel
-
 
 def get_item_entries(data_model, attributes):
 
@@ -22,36 +23,70 @@ def get_item_entries(data_model, attributes):
         invoked.
 
         INPUT:
-           PARAMS          | TYPE                   | DESCRIPTION
-        1. data_model      | GarmentDataModel       | Providing garment data model by executing MySQL query
-        2. attributes      | List                   | Contains attributes details restored in a dictionary
+           PARAMS               | TYPE                   | DESCRIPTION
+        1. data_model           | GarmentDataModel       | Providing garment data model by executing MySQL query
+        2. attributes           | List                   | Contains attributes details restored in a dictionary
                                                       (e.g. component name, attributes, query to be executed)
         OUTPUT:
-        1. training_list   | List                   | List that contains original training entry
-        2. validate_list   | List                   | List that contains original validation entry
-        3. test_list       | List                   | List that contains original test entry
+        1. ori_training_items   | List                   | List that contains original training entry
+        2. ori_validate_list    | List                   | List that contains original validation entry
+        3. ori_test_list        | List                   | List that contains original test entry
 
     """
 
     # Variables
-    ori_training_items = []
-    ori_validate_items = []
-    ori_test_items = []
+    entry_lists = []
 
     # Iterate the attribute to build list
     for i, attribute_entry in attributes:
 
+        # Extract variables from attribute entry
         component_name = attribute_entry['component']
         attribute_name = attribute_entry['attribute']
-
+        attribute_label = i
         sql_query =  attribute_entry['query']
-        bbox_points = attribute_entry['bbox_pts']
+        bbox_points = int(attribute_entry['bbox_pts'])
 
+        # Query the raw data from MySQL database
+        raw_data = data_model.query(sql_query)
 
+        # Extract image name
+        image_name = raw_data[0]
 
+        # Extract bounding bounding boxes
+        start_pt = (sys.float_info.max, sys.float_info.max)
+        end_pt = (sys.float_info.min, sys.float_info.min)
 
+        for n in range(0, bbox_points):
+            x = raw_data[2*n + 1]
+            y = raw_data[2*n + 2]
 
-    return 0
+            # Find the max and min for end and start point
+            if x < start_pt[0]:
+                start_pt[0] = x
+            elif x >= end_pt[0]:
+                end_pt[0] = x
+
+            if y < start_pt[1]:
+                start_pt[1] = y
+            elif y >= end_pt[1]:
+                end_pt[1] = y
+
+        # Add image name and bounding box to entry
+        entry = (image_name, attribute_label, start_pt, end_pt)
+        entry_lists.append(entry)
+
+    # Shuffle the 'entry_list'
+    shuffle(entry_lists)
+
+    # Extract training, validation, test entry lists
+    ori_training_items = entry_lists[0: cfg.train_size]
+    offset = cfg.train_size
+    ori_validate_items = [offset: offset + cfg.validation_size]
+    offset += cfg.validation_size
+    ori_test_items = [offset: cfg.test_size]
+
+    return ori_training_items, ori_validate_list, ori_test_list
 
 def augment_training_data(training_list):
 
@@ -85,6 +120,7 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path):
 
     """
 
+
 def generate_csvfile(list, csvfile_path):
 
     """
@@ -102,6 +138,7 @@ def generate_csvfile(list, csvfile_path):
         3. bbox_list_path    | String                 | Output path for bounding box set list.
 
     """
+
 
 if __name__ == '__main__':
 
@@ -131,4 +168,3 @@ if __name__ == '__main__':
 
     # Generate test lists
     generate_csvfile(ori_test_list, cfg.test_list_path)
-

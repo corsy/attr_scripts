@@ -61,5 +61,14 @@ test_list_path = ''
 # Configure how many test image you want to put into test list
 test_size = dataset_total_images - (train_size + validation_size)
 
+"""
+    Augmentation configuration
+"""
+# Set the factor of augment
+# e.g. if set 'augment_factor' = 20, their will be
+# 20 more images per training item
+augment_factor = 20
 
-
+# Set what percentage of data need to be flipped, if set 'flip_percent' = 1.0
+# all item will be flipped, default = 0.5
+flip_percent = 0.5
