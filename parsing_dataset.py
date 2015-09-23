@@ -8,6 +8,9 @@
 """
 import config as cfg
 import sys
+import numpy as np
+import lmdb_util as lu
+
 from random import shuffle
 from attributes import parsing_attribute_configfile
 from datamodel import GarmentDataModel
@@ -82,19 +85,18 @@ def get_item_entries(data_model, attributes):
     # Extract training, validation, test entry lists
     ori_training_items = entry_lists[0: cfg.train_size]
     offset = cfg.train_size
-    ori_validate_items = [offset: offset + cfg.validation_size]
+    ori_validate_items = entry_lists[offset: offset + cfg.validation_size]
     offset += cfg.validation_size
-    ori_test_items = [offset: cfg.test_size]
+    ori_test_items = entry_lists[offset: cfg.test_size]
 
-    return ori_training_items, ori_validate_list, ori_test_list
+    return ori_training_items, ori_validate_items, ori_test_items
 
 def augment_training_data(training_list):
-
     """
         Augment the training data
 
         This function will augment the training data base on the configurations detailed
-        in 'config.py'. Augmentation contains flip, random tranlsation,
+        in 'config.py'. Augmentation contains flip, random translation,
 
         INPUT:
            PARAMS            | TYPE                   | DESCRIPTION
@@ -105,6 +107,42 @@ def augment_training_data(training_list):
         1. aug_training_list | List                   | List that contains augmented training entry
 
     """
+    aug_training_list = []
+
+    # Iterate the training_list to get 'basic_entry'
+    # 'basic_entry' only contains image name, attribute label,
+    gaussian_sigma = 0.4
+
+    for count, basic_entry in training_list:
+
+        # Generate an array that contains flag determing whether an image need to
+        # be flipped
+        filp_flags = np.random.rand(cfg.augment_size) > (1 - cfg.flip_percent)
+
+        # Generate translation and rotation magnitude
+        trans_magnitudes = None
+        zooming_magnitudes = None
+        if cfg.distribution_method is 'Gaussian':
+            trans_magnitudes = cfg.translate_factor * \
+                              np.clip(np.random.normal(0, gaussian_sigma, cfg.augment_size), -1, 1)
+            zooming_magnitudes = cfg.zooming_factor * \
+                                np.clip(np.random.normal(0, gaussian_sigma, cfg.augment_size), -1, 1)
+        elif cfg.distribution_method is 'Uniform':
+            trans_magnitudes = cfg.translate_factor * np.random.uniform(-1, 1, cfg.augment_size)
+            zooming_magnitudes = cfg.zooming_factor * np.random.uniform(-1, 1, cfg.augment_size)
+
+        # Add to the augmentation list with corresponding augmentation parameters
+        # information in 'basic_entry' as well as the augmentation parameters will added to a new list
+        for i in range(0, cfg.augment_size):
+            aug_training_list.append((basic_entry, filp_flags[i], trans_magnitudes[i], zooming_magnitudes[i]))
+
+        # Print info
+        print 'augmenting: ', count
+
+    # Shuffle the training list
+    shuffle(aug_training_list)
+
+    return aug_training_list
 
 def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path):
 
@@ -114,11 +152,22 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path):
         INPUT:
            PARAMS            | TYPE                   | DESCRIPTION
         1. list              | List                   | List that contains original entry, list could be training,
-                                                        validation, test set.
+                                                        validation, test set. List should contains 'basic_entry' that
+                                                        contains image_name, bounding box, attribute label as well as
+                                                        flip flag, magnitude of random translation and zooming.
+
         2. img_lmdb_path     | String                 | Output path for image lmdb.
         3. bbox_lmdb_path    | String                 | Output path for bounding box lmdb.
 
     """
+    # Initialize the lmdbs
+    lu.del_and_create(img_lmdb_path)
+    lu.del_and_create(bbox_lmdb_path)
+
+    for entry in list:
+
+
+
 
 
 def generate_csvfile(list, csvfile_path):
