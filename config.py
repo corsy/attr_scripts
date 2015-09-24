@@ -100,9 +100,16 @@ translate_factor = 1.0
 zooming_factor = 1.0
 
 # Set what percentage of data need to be randomly rotate
-rotate_factor = 2.0
+# TODO(Luwei): Implemnet rotate augmentation later
+rotate_factor = 1.0
 
 # Set the maximum of rotation, the rotate range is
 # (-rotate_max_angle, rotate_max_angle)
 rotate_max_angle = math.pi / 2
 
+# Set what percentage of data need to have color jitter
+# TODO(Luwei): Implemnet color jitter later
+color_jitter_percent = 1.0
+
+# Set what magnitude of color jitter will be applied to original image bitmap.
+color_jitter_factor = 1.0

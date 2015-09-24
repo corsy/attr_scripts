@@ -263,9 +263,9 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
     """
         Generate csv file based on entry list
 
-        CSV file format as follows:
-            image_file, bbox pts(x1;y1;x2;y2), label (in number) ,
-            20.jpg    ,     22;21;23;42      , 1                 ,
+        Example of CSV file format as follows:
+            image_file,  label (in number), bbox_x1, bbox_y1, bbox_x2, bbox_y2,
+            20.jpg    ,                  1,                        22,21,23,42,
 
         INPUT:
            PARAMS            | TYPE                   | DESCRIPTION
@@ -273,13 +273,14 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
                                                         validation, test set.
         2. img_list_path     | String                 | Output path for image set list.
         3. bbox_list_path    | String                 | Output path for bounding box set list.
+        4. aug_flag          | bool                   | Mark if we need to augment the datasets [defalut: False]
 
     """
 
     # Initialize the lmdbs
     csv_file = open(csvfile_path, 'w')
 
-    csv_file.write('img_name, label, bbox_x1, bbox_y1, bbox_x2, bbox_y2\n')
+    csv_file.write('image_file, label, bbox_x1, bbox_y1, bbox_x2, bbox_y2\n')
 
     for count, entry in list:
 
@@ -378,5 +379,6 @@ if __name__ == '__main__':
     # Generate test lists
     generate_csvfile(ori_test_list, cfg.test_list_path)
 
+    # Destory window if needed
     if cfg.debug_gen_flag is True:
         cv.destroyAllWindows()
