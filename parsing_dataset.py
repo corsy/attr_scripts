@@ -305,6 +305,7 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
 
         # Read image
         img = cv.imread(cfg.image_directory + image_name, cv.IMREAD_COLOR)
+        # TODO(Luwei): Check the image.shape has constant format as we defined.
         img_size = np.asarray(img.shape).flatten()
 
         # Extend the crop region with random zooming
