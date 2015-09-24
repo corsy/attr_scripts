@@ -9,11 +9,33 @@
 
 import os
 import lmdb
+import cv2 as cv
 import shutil
+import numpy as np
+import caffe
 
 def del_and_create(database_file_path):
     if os.path.exists(database_file_path):
         shutil.rmtree(database_file_path)
     os.mkdir(database_file_path)
 
+def generate_img_datum(img, label):
 
+    img = img.swapaxes(0, 2).swapaxes(1, 2)
+    datum = caffe.io.array_to_datum(img, 0)
+    datum.label = label
+
+    return datum
+
+def generate_array_datum(array):
+
+
+    array = np.asarray(array).flatten()
+
+    datum = caffe.io.caffe_pb2.Datum()
+    datum.channels = len(array)
+    datum.height = 1
+    datum.width = 1
+    datum.float_data.extend(array.tolist())
+
+    return datum

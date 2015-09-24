@@ -65,6 +65,16 @@ test_size = dataset_total_images - (train_size + validation_size)
 """
     Dataset and augmentation configuration
 """
+
+# Debug flag of dataset generating
+debug_gen_flag = False
+
+# Enable or disable generate the debug data to file, if 'debug_gen_flag' is True
+enable_debug_gen_file = False
+
+# Debug generate dataset output path
+debug_gen_path = lmdb_output_path + 'preview'
+
 # Zooming the bounding box to 1.3x
 base_bbox_zooming_factor = 1.3
 
