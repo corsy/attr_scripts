@@ -10,6 +10,8 @@ import config as cfg
 import sys
 import numpy as np
 import lmdb_util as lu
+import augment_util as au
+import cv2 as cv
 
 from random import shuffle
 from attributes import parsing_attribute_configfile
@@ -164,9 +166,26 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path):
     lu.del_and_create(img_lmdb_path)
     lu.del_and_create(bbox_lmdb_path)
 
-    for entry in list:
+    for count, entry in list:
 
+        # Extract infomations
+        basic_info = entry[0]
+        image_name = basic_info[0]
+        attri_label = basic_info[1]
+        bbox = (basic_info[2], basic_info[3])
+        flip_flag = entry[1]
+        trans_magnitude = entry[2]
+        zooming_magnitude = entry[3]
 
+        # Read image
+        img = cv.imread(cfg.image_directory + image_name)
+        img_size = np.asarray(img.shape).flatten()
+
+        # Extend the crop region
+        ext_bbox = au.extend_bbox(bbox, img_size, cfg.base_bbox_zooming_factor)
+
+        # If need flip
+        if flip_flag is True:
 
 
 
