@@ -54,13 +54,13 @@ def parsing_attribute_configfile(config_file_path):
 
             # Parsing first line, get the filed name
             if line_count == 0:
-                field_names = line.split(',')
+                field_names = line.split(';')
                 line_count += 1
                 continue
 
             # Parsing items to entry[table row]
             attribute_entry = {}
-            field_values = line.split(',')
+            field_values = line.split(';')
             for i, field_name in enumerate(field_names):
                 attribute_entry[field_name] = field_values[i]
 

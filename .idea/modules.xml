@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/attr_scripts.iml" filepath="$PROJECT_DIR$/.idea/attr_scripts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/fast-rcnn-attributes.iml" filepath="$PROJECT_DIR$/.idea/fast-rcnn-attributes.iml" />
     </modules>
   </component>
 </project>

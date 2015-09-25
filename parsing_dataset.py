@@ -13,6 +13,7 @@ import lmdb
 import lmdb_util as lu
 import augment_util as au
 import cv2 as cv
+import os
 
 from random import shuffle
 from attributes import parsing_attribute_configfile
@@ -44,43 +45,46 @@ def get_item_entries(data_model, attributes):
     entry_lists = []
 
     # Iterate the attribute to build list
-    for i, attribute_entry in attributes:
+    for count, attribute_entry in enumerate(attributes):
 
         # Extract variables from attribute entry
         component_name = attribute_entry['component']
         attribute_name = attribute_entry['attribute']
-        attribute_label = i
-        sql_query = attribute_entry['query']
+        attribute_label = count
+        sql_query = attribute_entry['query_string']
         bbox_points = int(attribute_entry['bbox_pts'])
 
         # Query the raw data from MySQL database
         raw_data = data_model.query(sql_query)
+        raw_data_size = len(raw_data)
 
-        # Extract image name
-        image_name = raw_data[0]
+        for data in raw_data:
 
-        # Extract bounding bounding boxes
-        start_pt = (sys.float_info.max, sys.float_info.max)
-        end_pt = (sys.float_info.min, sys.float_info.min)
+            # Extract image name
+            image_name = data[0]
 
-        for n in range(0, bbox_points):
-            x = raw_data[2*n + 1]
-            y = raw_data[2*n + 2]
+            # Extract bounding bounding boxes
+            start_pt = [sys.float_info.max, sys.float_info.max]
+            end_pt = [sys.float_info.min, sys.float_info.min]
 
-            # Find the max and min for end and start point
-            if x < start_pt[0]:
-                start_pt[0] = x
-            elif x >= end_pt[0]:
-                end_pt[0] = x
+            for n in range(0, bbox_points):
+                x = data[2*n + 1]
+                y = data[2*n + 2]
 
-            if y < start_pt[1]:
-                start_pt[1] = y
-            elif y >= end_pt[1]:
-                end_pt[1] = y
+                # Find the max and min for end and start point
+                if x < start_pt[0]:
+                    start_pt[0] = x
+                elif x >= end_pt[0]:
+                    end_pt[0] = x
 
-        # Add image name and bounding box to entry
-        entry = (image_name, attribute_label, start_pt, end_pt)
-        entry_lists.append(entry)
+                if y < start_pt[1]:
+                    start_pt[1] = y
+                elif y >= end_pt[1]:
+                    end_pt[1] = y
+
+            # Add image name and bounding box to entry
+            entry = (image_name, attribute_label, start_pt, end_pt)
+            entry_lists.append(entry)
 
     # Shuffle the 'entry_list'
     shuffle(entry_lists)
@@ -90,7 +94,7 @@ def get_item_entries(data_model, attributes):
     offset = cfg.train_size
     ori_validate_items = entry_lists[offset: offset + cfg.validation_size]
     offset += cfg.validation_size
-    ori_test_items = entry_lists[offset: cfg.test_size]
+    ori_test_items = entry_lists[offset: offset + cfg.test_size]
 
     return ori_training_items, ori_validate_items, ori_test_items
 
@@ -116,8 +120,7 @@ def augment_training_data(training_list):
     # 'basic_entry' only contains image name, attribute label,
     gaussian_sigma = 0.4
 
-    for count, basic_entry in training_list:
-
+    for count, basic_entry in enumerate(training_list):
         # Generate an array that contains flag determing whether an image need to
         # be flipped
         filp_flags = np.random.rand(cfg.augment_size) > (1 - cfg.flip_percent)
@@ -130,7 +133,7 @@ def augment_training_data(training_list):
                               np.clip(np.random.normal(0, gaussian_sigma, (cfg.augment_size, 2)), -1, 1)
 
             zooming_magnitudes = cfg.zooming_factor * \
-                                np.clip(np.random.normal(0, gaussian_sigma, (cfg.augment_size, 2)), -1, 1)
+                                 np.clip(np.random.normal(0, gaussian_sigma, cfg.augment_size), -1, 1)
 
         elif cfg.distribution_method is 'Uniform':
             trans_magnitudes = cfg.translate_factor * np.random.uniform(-1, 1, (cfg.augment_size, 2))
@@ -149,8 +152,8 @@ def augment_training_data(training_list):
 
     return aug_training_list
 
-def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
 
+def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
     """
         Generate lmdb database based on entry list
 
@@ -172,7 +175,7 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
 
     img_env, img_txn, bbox_env, bbox_txn = None, None, None, None
 
-    if cfg.debug_gen_flag is True:
+    if aug_flag is True:
         img_env = lmdb.Environment(img_lmdb_path, map_size=1099511627776)
         img_txn = img_env.begin(write=True, buffers=True)
 
@@ -183,7 +186,7 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
     keys = np.arange(len(list))
     np.random.shuffle(keys)
 
-    for count, entry in list:
+    for count, entry in enumerate(list):
 
         # Print info every 100 iterations
         if count % 100 == 0:
@@ -193,7 +196,7 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
         basic_info = entry[0]
         image_name = basic_info[0]
         attri_label = basic_info[1]
-        bbox = (basic_info[2], basic_info[3])
+        bbox = np.asarray((basic_info[2], basic_info[3])).flatten()
 
         flip_flag = False
         trans_magnitude = (0, 0)
@@ -205,8 +208,13 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
             zooming_magnitude = entry[3]
 
         # Read image
-        img = cv.imread(cfg.image_directory + image_name, cv.IMREAD_COLOR)
-        img_size = np.asarray(img.shape).flatten()
+        img_file_path = cfg.image_directory + image_name + '.jpg'
+        if not os.path.exists(img_file_path):
+            continue
+
+        img = cv.imread(img_file_path, cv.IMREAD_COLOR)
+        img_height, img_width, img_channels = img.shape
+        img_size = np.asarray((img_width, img_height)).flatten()
 
         # Extend the crop region with random zooming
         ext_bbox = au.extend_bbox(bbox, img_size, cfg.base_bbox_zooming_factor * (1 + zooming_magnitude))
@@ -225,14 +233,16 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
         if cfg.debug_gen_flag is True:
 
             # Draw bounding box in image
-            img = cv.rectangle(img, (ext_bbox[0], ext_bbox[1]), (ext_bbox[2], ext_bbox[3]), (255, 0, 0), 2)
+            img = cv.rectangle(img, (int(ext_bbox[0]), int(ext_bbox[1])),
+                                    (int(ext_bbox[2]), int(ext_bbox[3])),
+                                    (255, 0, 0), 2)
 
             if cfg.enable_debug_gen_file is True:
                 # Write preview image to file
                 cv.imwrite(cfg.debug_gen_path + image_name + '.jpg', img)
             else:
                 # Show in window
-                cv.imshow('preview', img)
+                cv.imshow('debug_preview', img)
                 cv.waitKey(0)
 
             continue
@@ -241,17 +251,20 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
         train_img_datum = lu.generate_img_datum(img, label=attri_label)
         bbox_datum = lu.generate_array_datum(ext_bbox)
 
+        # Write to lmdb every 10000 times
         key = '%010d' % keys[count]
         img_txn.put(key, train_img_datum.SerializeToString())
         bbox_txn.put(key, bbox_datum.SerializeToString())
 
         if count % 10000 == 0:
+            # Write to lmdb every 10000 times
             img_txn.commit()
             bbox_txn.commit()
             img_txn = img_env.begin(write=True, buffers=True)
             bbox_txn = bbox_env.begin(write=True, buffers=True)
 
     if cfg.debug_gen_flag is False:
+        # Close the lmdb
         img_txn.commit()
         bbox_txn.commit()
         img_env.close()
@@ -304,9 +317,13 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
             zooming_magnitude = entry[3]
 
         # Read image
-        img = cv.imread(cfg.image_directory + image_name, cv.IMREAD_COLOR)
-        # TODO(Luwei): Check the image.shape has constant format as we defined.
-        img_size = np.asarray(img.shape).flatten()
+        img_file_path = cfg.image_directory + image_name + '.jpg'
+        if not os.path.exists(img_file_path):
+            continue
+
+        img = cv.imread(img_file_path, cv.IMREAD_COLOR)
+        img_height, img_width, img_channels = img.shape
+        img_size = np.asarray((img_width, img_height)).flatten()
 
         # Extend the crop region with random zooming
         ext_bbox = au.extend_bbox(bbox, img_size, cfg.base_bbox_zooming_factor * (1 + zooming_magnitude))
@@ -353,10 +370,17 @@ if __name__ == '__main__':
     """
     if cfg.debug_gen_flag is True:
         cv.namedWindow('debug_preview')
+        # Check if we need generate debug preview files, we need to create
+        # directory
+        if cfg.enable_debug_gen_file is True and os.path.exists(cfg.debug_gen_path) is False:
+            os.mkdir(cfg.debug_gen_path)
 
     """
         Main pipeline for generate lmdbs
     """
+    # Add PyCaffe to sys.path
+    sys.path.append(cfg.pycaffe_path)
+
     # Create data provider
     data_model = GarmentDataModel(cfg.mysql_hostname,
                                   cfg.mysql_username,
@@ -374,7 +398,7 @@ if __name__ == '__main__':
     aug_training_list = augment_training_data(ori_test_list)
 
     # Generate lmdbs
-    generate_lmdbs(ori_training_list, cfg.train_img_dbpath, cfg.train_bbox_dbpath, aug_flag=True)
+    generate_lmdbs(aug_training_list, cfg.train_img_dbpath, cfg.train_bbox_dbpath, aug_flag=True)
     generate_lmdbs(ori_validate_list, cfg.valid_img_dbpath, cfg.valid_bbox_dbpath, aug_flag=False)
 
     # Generate test lists
@@ -382,4 +406,4 @@ if __name__ == '__main__':
 
     # Destory window if needed
     if cfg.debug_gen_flag is True:
-        cv.destroyAllWindows()
+        cv.destroyWindow('debug_preview')
