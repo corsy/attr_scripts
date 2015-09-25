@@ -1,0 +1,10 @@
+component;attribute;bbox_pts;query_string;
+Collar;Lapel;2;SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y FROM clothingimagetag, collarlabel WHERE clothingimagetag.ID_image=collarlabel.ID_image AND clothingimagetag.CollarType='Fanling' LIMIT 10;
+Collar;Stand;2;SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y FROM clothingimagetag, collarlabel WHERE clothingimagetag.ID_image=collarlabel.ID_image AND clothingimagetag.CollarType='Liling' LIMIT 10;
+Collar;None;2;SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y FROM clothingimagetag, collarlabel WHERE clothingimagetag.ID_image=collarlabel.ID_image AND clothingimagetag.CollarType='Maoziling' LIMIT 10;
+Collar;None;2;SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y FROM clothingimagetag, collarlabel WHERE clothingimagetag.ID_image=collarlabel.ID_image AND clothingimagetag.CollarType='None' LIMIT 10;
+Placket;Exist;2;SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y FROM clothingimagetag, placketlabel WHERE clothingimagetag.ID_image=placketlabel.ID_image AND clothingimagetag.Placket1='Dajin' OR clothingimagetag.Placket1='Duijin' LIMIT 10;
+Placket;None;2;SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y FROM clothingimagetag, placketlabel WHERE clothingimagetag.ID_image=placketlabel.ID_image AND clothingimagetag.Placket1='None' LIMIT 10;
+Button;Exist;2;SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y FROM clothingimagetag, placketlabel WHERE clothingimagetag.ID_image=placketlabel.ID_image AND clothingimagetag.Placket1='Dajin' OR clothingimagetag.Placket1='Duijin' LIMIT 10;
+
+

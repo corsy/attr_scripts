@@ -20,7 +20,6 @@ from attributes import parsing_attribute_configfile
 from datamodel import GarmentDataModel
 
 def get_item_entries(data_model, attributes):
-
     """
         Get the item entries for training, validation, test
 
@@ -123,7 +122,7 @@ def augment_training_data(training_list):
     for count, basic_entry in enumerate(training_list):
         # Generate an array that contains flag determing whether an image need to
         # be flipped
-        filp_flags = np.random.rand(cfg.augment_size) > (1 - cfg.flip_percent)
+        flip_flags = np.random.rand(cfg.augment_size) > (1 - cfg.flip_percent)
 
         # Generate translation and rotation magnitude
         trans_magnitudes = None
@@ -142,7 +141,7 @@ def augment_training_data(training_list):
         # Add to the augmentation list with corresponding augmentation parameters
         # information in 'basic_entry' as well as the augmentation parameters will added to a new list
         for i in range(0, cfg.augment_size):
-            aug_training_list.append((basic_entry, filp_flags[i], trans_magnitudes[i], zooming_magnitudes[i]))
+            aug_training_list.append((basic_entry, flip_flags[i], trans_magnitudes[i], zooming_magnitudes[i]))
 
         # Print info
         print 'augmenting: ', count
@@ -203,7 +202,7 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
         zooming_magnitude = 0
 
         if aug_flag is True:
-            flip_flag = entry[1]
+            flip_flag = bool(entry[1])
             trans_magnitude = entry[2]
             zooming_magnitude = entry[3]
 
@@ -223,8 +222,8 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
         # If need flip
         if flip_flag is True:
             img = cv.flip(img, 1)
-            ext_bbox[0] = img_size[0] - ext_bbox[0]
-            ext_bbox[2] = img_size[0] - ext_bbox[2]
+            ext_bbox = (img_size[0] - ext_bbox[0], ext_bbox[1],
+                        img_size[0] - ext_bbox[2], ext_bbox[3])
 
         # Apply random translate
         offset = (trans_magnitude[0] * ext_bbox_size[0], trans_magnitude[1] * ext_bbox_size[1])
@@ -233,7 +232,7 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
         if cfg.debug_gen_flag is True:
 
             # Draw bounding box in image
-            img = cv.rectangle(img, (int(ext_bbox[0]), int(ext_bbox[1])),
+            cv.rectangle(img, (int(ext_bbox[0]), int(ext_bbox[1])),
                                     (int(ext_bbox[2]), int(ext_bbox[3])),
                                     (255, 0, 0), 2)
 
@@ -242,8 +241,10 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
                 cv.imwrite(cfg.debug_gen_path + image_name + '.jpg', img)
             else:
                 # Show in window
+                print 'Current:' + image_name + ' Label:' + str(attri_label) + '\n'
                 cv.imshow('debug_preview', img)
                 cv.waitKey(0)
+
 
             continue
 
@@ -277,8 +278,8 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
         Generate csv file based on entry list
 
         Example of CSV file format as follows:
-            image_file,  label (in number), bbox_x1, bbox_y1, bbox_x2, bbox_y2,
-            20.jpg    ,                  1,                        22,21,23,42,
+            image_file,  label (in number), bbox_x1, bbox_y1, bbox_x2, bbox_y2, flip_flag,
+            20.jpg    ,                  1,                        22,21,23,42,      True,
 
         INPUT:
            PARAMS            | TYPE                   | DESCRIPTION
@@ -295,7 +296,7 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
 
     csv_file.write('image_file, label, bbox_x1, bbox_y1, bbox_x2, bbox_y2\n')
 
-    for count, entry in list:
+    for count, entry in enumerate(list):
 
         # Print info every 100 iterations
         if count % 100 == 0:
@@ -312,7 +313,7 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
         zooming_magnitude = 0
 
         if aug_flag is True:
-            flip_flag = entry[1]
+            flip_flag = bool(entry[1])
             trans_magnitude = entry[2]
             zooming_magnitude = entry[3]
 
@@ -355,8 +356,9 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
             continue
 
         # Write to csv file
-        csv_file.write('%s, %d, %f, %f, %f, %f,\n' % (image_name, attri_label,
-                                                     ext_bbox[0], ext_bbox[1], ext_bbox[2]), ext_bbox[3])
+        csv_file.write('%s, %d, %f, %f, %f, %f, %d,\n' % (image_name, attri_label,
+                                                        ext_bbox[0], ext_bbox[1], ext_bbox[2]), ext_bbox[3],
+                                                        flip_flag)
 
     csv_file.close()
 
