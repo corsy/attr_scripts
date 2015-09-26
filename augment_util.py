@@ -8,6 +8,47 @@
 
 """
 
+def extend_bbox_xy(bbox, img_size, x_ext_factor, y_ext_factor):
+    """
+    Extend the region of bounding box by the extend scale
+
+    @param(bbox): bounding box, including start and end point
+    @param(img_size): dimension of image, used when extend out of boundary.
+    @param(extend_factor): extend scale, relative to the size of original
+    bounding box.
+
+    @return(ext_bbox): extended bounding box in (x1, y1, x2, y2)
+
+    """
+    center = (bbox[0] + (bbox[2] - bbox[0])/2, bbox[1] + (bbox[3] - bbox[1])/2)     # center (x,y)
+
+    # Make sure size is not less than 16
+    min_width, min_height = 16, 16
+    size_x = bbox[2] - bbox[0]
+    size_x = min_width if (bbox[2] - bbox[0]) <= min_width else size_x
+
+    size_y = bbox[3] - bbox[1]
+    size_y = min_height if (bbox[3] - bbox[1]) <= min_height else size_y
+
+    size = (size_x, size_y)
+
+    # Compute extended bounding box
+    ext_start_x = center[0] - x_ext_factor * size[0]/2
+    ext_start_x = 0 if ext_start_x < 0 else ext_start_x
+
+    ext_end_x = center[0] + x_ext_factor * size[0]/2
+    ext_end_x = img_size[0] if ext_end_x > img_size[0] else ext_end_x
+
+    ext_start_y = center[1] - y_ext_factor * size[1]/2
+    ext_start_y = 0 if ext_start_y < 0 else ext_start_y
+
+    ext_end_y = center[1] + y_ext_factor * size[1]/2
+    ext_end_y = img_size[1] if ext_end_y > img_size[1] else ext_end_y
+
+    ext_bbox = (ext_start_x, ext_start_y, ext_end_x, ext_end_y)
+
+    return ext_bbox
+
 def extend_bbox(bbox, img_size, extend_factor):
     """
     Extend the region of bounding box by the extend scale

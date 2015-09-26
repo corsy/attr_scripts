@@ -24,13 +24,11 @@ mysql_dbname = 'clothesimagedatabase'
     Dataset configurations
 """
 # Set the image amount in dataset
-dataset_total_images = 30
+dataset_total_images = 60
 
 # Set the directories
-# image_directory = '/home/luwei/Project/Datasets/Garment/database20141024/'
-# trousers_image_directory = '/home/luwei/Project/Datasets/Garment/database-trousers/'
-image_directory = '/home/corsy/Documents/datasets/garment/database20141024/'
-trousers_image_directory = '/home/corsy/Documents/datasets/garment/database-trousers/'
+image_directory = '/home/luwei/Project/Datasets/Garment/database20141024/'
+trousers_image_directory = '/home/luwei/Project/Datasets/Garment/database-trousers/'
 
 """
     Attributes file configurations
@@ -43,7 +41,7 @@ attribute_file_path = 'attri_config.csv'
     Output directories and path
 """
 # Configure output lmdbs path
-lmdb_output_path = './data/'
+lmdb_output_path = ''
 
 # Path for outputting training image lmdb
 train_img_dbpath = lmdb_output_path + 'image_train.lmdb'
@@ -52,7 +50,7 @@ train_img_dbpath = lmdb_output_path + 'image_train.lmdb'
 train_bbox_dbpath = lmdb_output_path + 'bbox_train.lmdb'
 
 # Configure how many images will be used as training set
-train_size = 20
+train_size = 40
 
 # Path for outputting validation image lmdb
 valid_img_dbpath = lmdb_output_path + 'image_valid.lmdb'
@@ -61,10 +59,10 @@ valid_img_dbpath = lmdb_output_path + 'image_valid.lmdb'
 valid_bbox_dbpath = lmdb_output_path + 'bbox_valid.lmdb'
 
 # Configure how many images will be used as validate set
-validation_size = 5
+validation_size = 15
 
 # Configure test list path
-test_list_path = './data/test.txt'
+test_list_path = ''
 
 # Configure how many test image you want to put into test list
 test_size = dataset_total_images - (train_size + validation_size)
@@ -82,12 +80,12 @@ enable_debug_gen_file = False
 # Debug generate dataset output path
 debug_gen_path = lmdb_output_path + 'debug_preview'
 
-# Zooming the bounding box by default
-base_bbox_zooming_factor = 1.5
+# Zooming the bounding box to 1.3x
+base_bbox_zooming_factor = 1.3
 
 # Set the factor of augment
 # e.g. if set 'augment_factor' = 20, their will be
-# more images per training item
+# 20 more images per training item
 augment_size = 10
 
 # Set what percentage of data need to be flipped, if set 'flip_percent' = 1.0

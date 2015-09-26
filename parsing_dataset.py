@@ -49,13 +49,18 @@ def get_item_entries(data_model, attributes):
         # Extract variables from attribute entry
         component_name = attribute_entry['component']
         attribute_name = attribute_entry['attribute']
-        attribute_label = count
+        attribute_label = int(attribute_entry['attri_label'])
         sql_query = attribute_entry['query_string']
         bbox_points = int(attribute_entry['bbox_pts'])
 
+        # Extra info for pre-processing on bounding box
+        offset_x = int(attribute_entry['x_offset'])
+        offset_y = int(attribute_entry['y_offset'])
+        x_ext_factor = float(attribute_entry['x_ext_factor'])
+        y_ext_factor = float(attribute_entry['y_ext_factor'])
+
         # Query the raw data from MySQL database
         raw_data = data_model.query(sql_query)
-        raw_data_size = len(raw_data)
 
         for data in raw_data:
 
@@ -72,17 +77,19 @@ def get_item_entries(data_model, attributes):
 
                 # Find the max and min for end and start point
                 if x < start_pt[0]:
-                    start_pt[0] = x
-                elif x >= end_pt[0]:
-                    end_pt[0] = x
+                    start_pt[0] = int(x)
+
+                if x >= end_pt[0]:
+                    end_pt[0] = int(x)
 
                 if y < start_pt[1]:
-                    start_pt[1] = y
-                elif y >= end_pt[1]:
-                    end_pt[1] = y
+                    start_pt[1] = int(y)
+
+                if y >= end_pt[1]:
+                    end_pt[1] = int(y)
 
             # Add image name and bounding box to entry
-            entry = (image_name, attribute_label, start_pt, end_pt)
+            entry = (image_name, attribute_label, start_pt, end_pt, (offset_x, offset_y), (x_ext_factor, y_ext_factor))
             entry_lists.append(entry)
 
     # Shuffle the 'entry_list'
@@ -96,6 +103,7 @@ def get_item_entries(data_model, attributes):
     ori_test_items = entry_lists[offset: offset + cfg.test_size]
 
     return ori_training_items, ori_validate_items, ori_test_items
+
 
 def augment_training_data(training_list):
     """
@@ -192,19 +200,16 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
             print 'Currently processing on %d\n' % count
 
         # Extract infomations
-        basic_info = entry[0]
+        basic_info = entry if aug_flag is False else entry[0]
         image_name = basic_info[0]
         attri_label = basic_info[1]
         bbox = np.asarray((basic_info[2], basic_info[3])).flatten()
+        offset = np.asarray(basic_info[4]).flatten()
+        ext_factor = np.asarray(basic_info[5]).flatten()
 
-        flip_flag = False
-        trans_magnitude = (0, 0)
-        zooming_magnitude = 0
-
-        if aug_flag is True:
-            flip_flag = bool(entry[1])
-            trans_magnitude = entry[2]
-            zooming_magnitude = entry[3]
+        flip_flag = False if aug_flag is True else bool(entry[1])
+        trans_magnitude = (0, 0) if aug_flag is False else entry[2]
+        zooming_magnitude = 0 if aug_flag is False else entry[3]
 
         # Read image
         img_file_path = cfg.image_directory + image_name + '.jpg'
@@ -215,19 +220,22 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
         img_height, img_width, img_channels = img.shape
         img_size = np.asarray((img_width, img_height)).flatten()
 
-        # Extend the crop region with random zooming
-        ext_bbox = au.extend_bbox(bbox, img_size, cfg.base_bbox_zooming_factor * (1 + zooming_magnitude))
-        ext_bbox_size = (ext_bbox[2] - ext_bbox[0], ext_bbox[3] - ext_bbox[1])
-
+        # Add basic offset
+        bbox = au.translate_box(bbox, img_size, offset)
         # If need flip
         if flip_flag is True:
             img = cv.flip(img, 1)
-            ext_bbox = (img_size[0] - ext_bbox[0], ext_bbox[1],
-                        img_size[0] - ext_bbox[2], ext_bbox[3])
+            bbox = (img_size[0] - bbox[2], bbox[1],
+                    img_size[0] - bbox[0], bbox[3])
+
+        # Extend the crop region with random zooming
+        ext_bbox = au.extend_bbox_xy(bbox, img_size,
+                                     ext_factor[0] * (1 + zooming_magnitude), ext_factor[1] * (1 + zooming_magnitude))
+        ext_bbox_size = (ext_bbox[2] - ext_bbox[0], ext_bbox[3] - ext_bbox[1])
 
         # Apply random translate
-        offset = (trans_magnitude[0] * ext_bbox_size[0], trans_magnitude[1] * ext_bbox_size[1])
-        ext_bbox = au.translate_box(ext_bbox, img_size, offset)
+        random_offset = (trans_magnitude[0] * ext_bbox_size[0], trans_magnitude[1] * ext_bbox_size[1])
+        ext_bbox = au.translate_box(ext_bbox, img_size, random_offset)
 
         if cfg.debug_gen_flag is True:
 
@@ -244,7 +252,6 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
                 print 'Current:' + image_name + ' Label:' + str(attri_label) + '\n'
                 cv.imshow('debug_preview', img)
                 cv.waitKey(0)
-
 
             continue
 
@@ -271,6 +278,7 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
         img_env.close()
         bbox_env.close()
         print 'Push items into lmdb has finished, \nTotal: %d\n' % len(list)
+
 
 def generate_csvfile(list, csvfile_path, aug_flag=False):
 
@@ -302,11 +310,13 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
         if count % 100 == 0:
             print 'Currently processing on %d\n' % count
 
-        # Extract infomations
+         # Extract infomations
         basic_info = entry[0]
         image_name = basic_info[0]
         attri_label = basic_info[1]
-        bbox = (basic_info[2], basic_info[3])
+        bbox = np.asarray((basic_info[2], basic_info[3])).flatten()
+        offset = np.asarray(basic_info[4]).flatten()
+        ext_factor = np.asarray(basic_info[5]).flatten()
 
         flip_flag = False
         trans_magnitude = (0, 0)
@@ -326,19 +336,22 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
         img_height, img_width, img_channels = img.shape
         img_size = np.asarray((img_width, img_height)).flatten()
 
-        # Extend the crop region with random zooming
-        ext_bbox = au.extend_bbox(bbox, img_size, cfg.base_bbox_zooming_factor * (1 + zooming_magnitude))
-        ext_bbox_size = (ext_bbox[2] - ext_bbox[0], ext_bbox[3] - ext_bbox[1])
-
+        # Add basic offset
+        bbox = au.translate_box(bbox, img_size, offset)
         # If need flip
         if flip_flag is True:
             img = cv.flip(img, 1)
-            ext_bbox[0] = img_size[0] - ext_bbox[0]
-            ext_bbox[2] = img_size[0] - ext_bbox[2]
+            bbox = (img_size[0] - bbox[0], bbox[1],
+                    img_size[0] - bbox[2], bbox[3])
+
+        # Extend the crop region with random zooming
+        ext_bbox = au.extend_bbox_xy(bbox, img_size,
+                                     ext_factor[0] * (1 + zooming_magnitude), ext_factor[1] * (1 + zooming_magnitude))
+        ext_bbox_size = (ext_bbox[2] - ext_bbox[0], ext_bbox[3] - ext_bbox[1])
 
         # Apply random translate
-        offset = (trans_magnitude[0] * ext_bbox_size[0], trans_magnitude[1] * ext_bbox_size[1])
-        ext_bbox = au.translate_box(ext_bbox, img_size, offset)
+        random_offset = (trans_magnitude[0] * ext_bbox_size[0], trans_magnitude[1] * ext_bbox_size[1])
+        ext_bbox = au.translate_box(ext_bbox, img_size, random_offset)
 
         if cfg.debug_gen_flag is True:
 
@@ -349,7 +362,8 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
                 # Write preview image to file
                 cv.imwrite(cfg.debug_gen_path + image_name + '.jpg', img)
             else:
-                # Show in window
+                # Show in windows
+                print 'Current:' + image_name + ' Label:' + str(attri_label) + '\n'
                 cv.imshow('debug_preview', img)
                 cv.waitKey(0)
 
@@ -397,14 +411,14 @@ if __name__ == '__main__':
     ori_training_list, ori_validate_list, ori_test_list = get_item_entries(data_model, attributes)
 
     # Augment the training dataset
-    aug_training_list = augment_training_data(ori_test_list)
+    # aug_training_list = augment_training_data(ori_training_list)
 
     # Generate lmdbs
-    generate_lmdbs(aug_training_list, cfg.train_img_dbpath, cfg.train_bbox_dbpath, aug_flag=True)
+    generate_lmdbs(ori_training_list, cfg.train_img_dbpath, cfg.train_bbox_dbpath, aug_flag=False)
     generate_lmdbs(ori_validate_list, cfg.valid_img_dbpath, cfg.valid_bbox_dbpath, aug_flag=False)
 
     # Generate test lists
-    generate_csvfile(ori_test_list, cfg.test_list_path)
+    # generate_csvfile(ori_test_list, cfg.test_list_path)
 
     # Destory window if needed
     if cfg.debug_gen_flag is True:
