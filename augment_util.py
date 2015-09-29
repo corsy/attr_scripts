@@ -8,7 +8,7 @@
 
 """
 
-def extend_bbox_xy(bbox, img_size, x_ext_factor, y_ext_factor):
+def extend_bbox_xy(bbox, img_size, x_ext_factor, y_ext_factor, xy_ratio):
     """
     Extend the region of bounding box by the extend scale
 
@@ -23,12 +23,18 @@ def extend_bbox_xy(bbox, img_size, x_ext_factor, y_ext_factor):
     center = (bbox[0] + (bbox[2] - bbox[0])/2, bbox[1] + (bbox[3] - bbox[1])/2)     # center (x,y)
 
     # Make sure size is not less than 16
-    min_width, min_height = 16, 16
-    size_x = bbox[2] - bbox[0]
+    min_width, min_height = 16.0, 16.0
+    size_x = float(bbox[2] - bbox[0])
     size_x = min_width if (bbox[2] - bbox[0]) <= min_width else size_x
 
-    size_y = bbox[3] - bbox[1]
+    size_y = float(bbox[3] - bbox[1])
     size_y = min_height if (bbox[3] - bbox[1]) <= min_height else size_y
+
+    # Make sure the ratio of width and height are constant to the 'xy_ratio'
+    if float(size_x)/float(size_y) < xy_ratio:
+        size_x = float(size_y * xy_ratio)
+    elif float(size_y)/float(size_x) < xy_ratio:
+        size_y = float(size_x * xy_ratio)
 
     size = (size_x, size_y)
 

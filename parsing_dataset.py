@@ -52,10 +52,11 @@ def get_item_entries(data_model, attributes):
         attribute_label = int(attribute_entry['attri_label'])
         sql_query = attribute_entry['query_string']
         bbox_points = int(attribute_entry['bbox_pts'])
+        minimal_width_ratio = float(attribute_entry['ratio'])
 
         # Extra info for pre-processing on bounding box
-        offset_x = int(attribute_entry['x_offset'])
-        offset_y = int(attribute_entry['y_offset'])
+        offset_x = float(attribute_entry['x_offset'])
+        offset_y = float(attribute_entry['y_offset'])
         x_ext_factor = float(attribute_entry['x_ext_factor'])
         y_ext_factor = float(attribute_entry['y_ext_factor'])
 
@@ -89,7 +90,7 @@ def get_item_entries(data_model, attributes):
                     end_pt[1] = int(y)
 
             # Add image name and bounding box to entry
-            entry = (image_name, attribute_label, start_pt, end_pt, (offset_x, offset_y), (x_ext_factor, y_ext_factor))
+            entry = (image_name, attribute_label, start_pt, end_pt, (offset_x, offset_y), (x_ext_factor, y_ext_factor), minimal_width_ratio)
             entry_lists.append(entry)
 
     # Shuffle the 'entry_list'
@@ -204,8 +205,9 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
         image_name = basic_info[0]
         attri_label = basic_info[1]
         bbox = np.asarray((basic_info[2], basic_info[3])).flatten()
-        offset = np.asarray(basic_info[4]).flatten()
+        offset_factor = np.asarray(basic_info[4]).flatten()
         ext_factor = np.asarray(basic_info[5]).flatten()
+        minimal_width_ratio = basic_info[6]
 
         flip_flag = False if aug_flag is True else bool(entry[1])
         trans_magnitude = (0, 0) if aug_flag is False else entry[2]
@@ -220,6 +222,8 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
         img_height, img_width, img_channels = img.shape
         img_size = np.asarray((img_width, img_height)).flatten()
 
+        offset = (offset_factor[0] * img_width, offset_factor[1] * img_height)
+
         # Add basic offset
         bbox = au.translate_box(bbox, img_size, offset)
         # If need flip
@@ -230,7 +234,9 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
 
         # Extend the crop region with random zooming
         ext_bbox = au.extend_bbox_xy(bbox, img_size,
-                                     ext_factor[0] * (1 + zooming_magnitude), ext_factor[1] * (1 + zooming_magnitude))
+                                     ext_factor[0] * (1 + zooming_magnitude), ext_factor[1] * (1 + zooming_magnitude),
+                                     xy_ratio=minimal_width_ratio)
+
         ext_bbox_size = (ext_bbox[2] - ext_bbox[0], ext_bbox[3] - ext_bbox[1])
 
         # Apply random translate
