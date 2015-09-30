@@ -296,21 +296,21 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
         random_offset = (trans_magnitude[0] * ext_bbox_size[0], trans_magnitude[1] * ext_bbox_size[1])
         ext_bbox = au.translate_box(ext_bbox, img_size, random_offset)
 
-        # if cfg.debug_gen_flag is True:
-        #     # Draw bounding box in image
-        #     cv.rectangle(img, (int(ext_bbox[0]), int(ext_bbox[1])),
-        #                             (int(ext_bbox[2]), int(ext_bbox[3])),
-        #                             (255, 0, 0), 2)
-        #
-        #     if cfg.enable_debug_gen_file is True:
-        #         # Write preview image to file
-        #         cv.imwrite(cfg.debug_gen_path + image_name + '.jpg', img)
-        #     else:
-        #         # Show in window
-        #         print 'Current:' + image_name + ' Label:' + str(attri_label)
-        #         cv.imshow('debug_preview', img)
-        #         cv.waitKey(0)
-        #     continue
+        if cfg.debug_gen_flag is True:
+            # Draw bounding box in image
+            cv.rectangle(img, (int(ext_bbox[0]), int(ext_bbox[1])),
+                                    (int(ext_bbox[2]), int(ext_bbox[3])),
+                                    (255, 0, 0), 2)
+
+            if cfg.enable_debug_gen_file is True:
+                # Write preview image to file
+                cv.imwrite(cfg.debug_gen_path + image_name + '.jpg', img)
+            else:
+                # Show in window
+                print 'Current:' + image_name + ' Label:' + str(attri_label)
+                cv.imshow('debug_preview', img)
+                cv.waitKey(0)
+            continue
 
         # Check the bbox
         if ext_bbox[3] < ext_bbox[1] or ext_bbox[2] < ext_bbox[0]:

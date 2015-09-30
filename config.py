@@ -24,7 +24,7 @@ mysql_dbname = 'clothesimagedatabase'
     Dataset configurations
 """
 # Set the maximal image amount in dataset, if -1 means no limitation
-maximal_total_images = 400
+maximal_total_images = -1
 
 # Set the directories
 image_directory = '/home/luwei/Project/Datasets/Garment/database20141024/'
@@ -95,7 +95,7 @@ base_bbox_zooming_factor = 1.3
 # Set the factor of augment
 # e.g. if set 'augment_factor' = 20, their will be
 # 20 more images per training item
-augment_size = 10
+augment_size = 20
 
 # Set what percentage of data need to be flipped, if set 'flip_percent' = 1.0
 # all item will be flipped, default = 0.5

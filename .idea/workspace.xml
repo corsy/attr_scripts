@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a963c98-8434-4317-bfe5-7d2f930af917" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DNN_util/draw_loss.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DNN_util/feature_extract.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attri_config.csv.bak" afterPath="$PROJECT_DIR$/attri_config.csv.bak" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attri_config.csv" afterPath="$PROJECT_DIR$/attri_config.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/augment_util.py" afterPath="$PROJECT_DIR$/augment_util.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.py" afterPath="$PROJECT_DIR$/config.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parsing_dataset.py" afterPath="$PROJECT_DIR$/parsing_dataset.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -24,8 +21,8 @@
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/attr_scripts$draw_loss.coverage" NAME="draw_loss Coverage Results" MODIFIED="1443576717553" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DNN_util" />
-    <SUITE FILE_PATH="coverage/attr_scripts$parsing_dataset.coverage" NAME="parsing_dataset Coverage Results" MODIFIED="1443569500423" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/attr_scripts$feature_extract.coverage" NAME="feature_extract Coverage Results" MODIFIED="1443579907317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DNN_util" />
+    <SUITE FILE_PATH="coverage/attr_scripts$feature_extract.coverage" NAME="feature_extract Coverage Results" MODIFIED="1443632645908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DNN_util" />
+    <SUITE FILE_PATH="coverage/attr_scripts$parsing_dataset.coverage" NAME="parsing_dataset Coverage Results" MODIFIED="1443633703131" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -40,7 +37,7 @@
         <entry file="file://$PROJECT_DIR$/config.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="19" column="27" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
+              <caret line="97" column="17" selection-start-line="97" selection-start-column="17" selection-end-line="97" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -49,8 +46,8 @@
       <file leaf-file-name="parsing_dataset.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parsing_dataset.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="48.125">
-              <caret line="105" column="46" selection-start-line="105" selection-start-column="46" selection-end-line="105" selection-end-column="46" />
+            <state vertical-scroll-proportion="-14.4375">
+              <caret line="264" column="0" selection-start-line="264" selection-start-column="0" selection-end-line="264" selection-end-column="0" />
               <folding>
                 <element signature="e#186#206#0" expanded="true" />
               </folding>
@@ -78,16 +75,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="attributes.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/attributes.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="augment_util.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/augment_util.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -98,21 +85,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="attri_config.csv" pinned="false" current-in-tab="false">
+      <file leaf-file-name="attri_config.csv" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/attri_config.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.45428973">
+              <caret line="19" column="81" selection-start-line="19" selection-start-column="81" selection-end-line="19" selection-end-column="81" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="feature_extract.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="attri_config.csv.bak" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/attri_config.csv.bak">
+          <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-9.5625">
+              <caret line="18" column="56" selection-start-line="0" selection-start-column="0" selection-end-line="18" selection-end-column="215" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="feature_extract.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DNN_util/feature_extract.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.45508102">
-              <caret line="55" column="38" selection-start-line="55" selection-start-column="38" selection-end-line="55" selection-end-column="38" />
+            <state vertical-scroll-proportion="-18.15625">
+              <caret line="71" column="33" selection-start-line="71" selection-start-column="33" selection-end-line="71" selection-end-column="33" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -164,13 +164,13 @@
       <list>
         <option value="$PROJECT_DIR$/lmdb_util.py" />
         <option value="$PROJECT_DIR$/attributes.py" />
+        <option value="$PROJECT_DIR$/augment_util.py" />
+        <option value="$PROJECT_DIR$/DNN_util/draw_loss.py" />
+        <option value="$PROJECT_DIR$/DNN_util/feature_extract.py" />
+        <option value="$PROJECT_DIR$/parsing_dataset.py" />
         <option value="$PROJECT_DIR$/attri_config.csv.bak" />
         <option value="$PROJECT_DIR$/attri_config.csv" />
         <option value="$PROJECT_DIR$/config.py" />
-        <option value="$PROJECT_DIR$/augment_util.py" />
-        <option value="$PROJECT_DIR$/parsing_dataset.py" />
-        <option value="$PROJECT_DIR$/DNN_util/draw_loss.py" />
-        <option value="$PROJECT_DIR$/DNN_util/feature_extract.py" />
       </list>
     </option>
   </component>
@@ -256,7 +256,7 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="true" />
   </component>
-  <component name="RunManager" selected="Python.feature_extract">
+  <component name="RunManager" selected="Python.parsing_dataset">
     <configuration default="false" name="parsing_dataset" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -506,9 +506,9 @@
     </list>
     <recent_temporary>
       <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Python.feature_extract" />
-        <item index="1" class="java.lang.String" itemvalue="Python.draw_loss" />
-        <item index="2" class="java.lang.String" itemvalue="Python.parsing_dataset" />
+        <item index="0" class="java.lang.String" itemvalue="Python.parsing_dataset" />
+        <item index="1" class="java.lang.String" itemvalue="Python.feature_extract" />
+        <item index="2" class="java.lang.String" itemvalue="Python.draw_loss" />
       </list>
     </recent_temporary>
   </component>
@@ -553,7 +553,13 @@
       <option name="project" value="LOCAL" />
       <updated>1443227689340</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="&quot;Added some comment line&quot;">
+      <created>1443583455291</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1443583455291</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TodoView">
@@ -773,14 +779,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/attri_config.csv.bak">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1690341">
-          <caret line="7" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/attributes.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -797,36 +795,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="27" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/augment_util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parsing_dataset.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="48.125">
-          <caret line="105" column="46" selection-start-line="105" selection-start-column="46" selection-end-line="105" selection-end-column="46" />
-          <folding>
-            <element signature="e#186#206#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attri_config.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -859,11 +831,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DNN_util/feature_extract.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45508102">
-          <caret line="55" column="38" selection-start-line="55" selection-start-column="38" selection-end-line="55" selection-end-column="38" />
+        <state vertical-scroll-proportion="-18.15625">
+          <caret line="71" column="33" selection-start-line="71" selection-start-column="33" selection-end-line="71" selection-end-column="33" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attri_config.csv.bak">
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.5625">
+          <caret line="18" column="56" selection-start-line="0" selection-start-column="0" selection-end-line="18" selection-end-column="215" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="97" column="17" selection-start-line="97" selection-start-column="17" selection-end-line="97" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parsing_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.4375">
+          <caret line="264" column="0" selection-start-line="264" selection-start-column="0" selection-end-line="264" selection-end-column="0" />
+          <folding>
+            <element signature="e#186#206#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attri_config.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.45428973">
+          <caret line="19" column="81" selection-start-line="19" selection-start-column="81" selection-end-line="19" selection-end-column="81" />
+          <folding />
         </state>
       </provider>
     </entry>
