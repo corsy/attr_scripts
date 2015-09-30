@@ -43,13 +43,13 @@ def extend_bbox_xy(bbox, img_size, x_ext_factor, y_ext_factor, xy_ratio):
     ext_start_x = 0 if ext_start_x < 0 else ext_start_x
 
     ext_end_x = center[0] + x_ext_factor * size[0]/2
-    ext_end_x = img_size[0] if ext_end_x > img_size[0] else ext_end_x
+    ext_end_x = img_size[0] - 1 if ext_end_x >= img_size[0] else ext_end_x
 
     ext_start_y = center[1] - y_ext_factor * size[1]/2
     ext_start_y = 0 if ext_start_y < 0 else ext_start_y
 
     ext_end_y = center[1] + y_ext_factor * size[1]/2
-    ext_end_y = img_size[1] if ext_end_y > img_size[1] else ext_end_y
+    ext_end_y = img_size[1] - 1 if ext_end_y >= img_size[1] else ext_end_y
 
     ext_bbox = (ext_start_x, ext_start_y, ext_end_x, ext_end_y)
 
@@ -76,13 +76,13 @@ def extend_bbox(bbox, img_size, extend_factor):
     ext_start_x = 0 if ext_start_x < 0 else ext_start_x
 
     ext_end_x = center[0] + extend_factor * size[0]/2
-    ext_end_x = img_size[0] if ext_end_x > img_size[0] else ext_end_x
+    ext_end_x = img_size[0] - 1 if ext_end_x >= img_size[0] else ext_end_x
 
     ext_start_y = center[1] - extend_factor * size[1]/2
     ext_start_y = 0 if ext_start_y < 0 else ext_start_y
 
     ext_end_y = center[1] + extend_factor * size[1]/2
-    ext_end_y = img_size[1] if ext_end_y > img_size[1] else ext_end_y
+    ext_end_y = img_size[1] - 1 if ext_end_y >= img_size[1] else ext_end_y
 
     ext_bbox = (ext_start_x, ext_start_y, ext_end_x, ext_end_y)
 
@@ -105,13 +105,13 @@ def translate_box(bbox, img_size, offset):
     start_x = 0 if start_x < 0 else start_x
 
     end_x = bbox[2] + offset[0]
-    end_x = img_size[0] if end_x > img_size[0] else end_x
+    end_x = img_size[0] - 1 if end_x >= img_size[0] else end_x
 
     start_y = bbox[1] + offset[1]
     start_y = 0 if start_y < 0 else start_y
 
     end_y = bbox[3] + offset[1]
-    end_y = img_size[1] if end_y > img_size[1] else end_y
+    end_y = img_size[1] - 1 if end_y >= img_size[1] else end_y
 
     bbox = (start_x, start_y, end_x, end_y)
 

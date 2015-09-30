@@ -7,6 +7,7 @@
     the attributes that has configured.
 """
 import config as cfg
+import glob
 import sys
 import numpy as np
 import lmdb
@@ -69,8 +70,8 @@ def get_item_entries(data_model, attributes):
             image_name = data[0]
 
             # Extract bounding bounding boxes
-            start_pt = [sys.float_info.max, sys.float_info.max]
-            end_pt = [sys.float_info.min, sys.float_info.min]
+            start_pt = np.asarray([sys.float_info.max, sys.float_info.max])
+            end_pt = np.asarray([sys.float_info.min, sys.float_info.min])
 
             for n in range(0, bbox_points):
                 x = data[2*n + 1]
@@ -93,15 +94,56 @@ def get_item_entries(data_model, attributes):
             entry = (image_name, attribute_label, start_pt, end_pt, (offset_x, offset_y), (x_ext_factor, y_ext_factor), minimal_width_ratio)
             entry_lists.append(entry)
 
+    # If we need clamp the datasets:
+    if cfg.maximal_total_images != -1:
+        entry_lists = entry_lists[:cfg.maximal_total_images]
+
+    # Add negative images
+    neg_images = glob.glob(cfg.neg_image_directory + '*.jpg')
+    neg_images += glob.glob(cfg.neg_image_directory + '*.png')
+
+    for neg_img in neg_images[:cfg.max_neg_img_count]:
+        start_pt_x = np.random.randint(0, 350)
+        start_pt_y = np.random.randint(0, 200)
+
+        bbox_base_size = np.random.randint(40, 140)
+        bbox_size_x, bbox_size_y = 0, 0
+
+        # Clamp the size
+        bbox_size_x = 479 - start_pt[0] if start_pt_x + bbox_base_size >= 480 else bbox_base_size
+        bbox_size_y = 299 - start_pt[1] if start_pt_y + bbox_base_size >= 300 else bbox_base_size
+
+        start_pt = np.asarray([start_pt_x, start_pt_y])
+        end_pt = np.asarray([bbox_size_x + start_pt[0], bbox_size_y + start_pt[1]])
+
+        # Add to entry list
+        entry = (neg_img, 0, start_pt, end_pt, (0, 0), (1.0, 1.0), 1.0)
+        entry_lists.append(entry)
+
+        # if cfg.debug_gen_flag is True:
+        #     img = cv.imread(neg_img, cv.IMREAD_COLOR)
+        #     img = cv.resize(img, (480, 300))
+        #     cv.rectangle(img, (start_pt[0], start_pt[1]), (end_pt[0], end_pt[1]), (0, 255, 0), 1)
+        #     cv.imshow('debug_preview', img)
+        #     cv.waitKey(0)
+
     # Shuffle the 'entry_list'
     shuffle(entry_lists)
 
     # Extract training, validation, test entry lists
-    ori_training_items = entry_lists[0: cfg.train_size]
-    offset = cfg.train_size
-    ori_validate_items = entry_lists[offset: offset + cfg.validation_size]
-    offset += cfg.validation_size
-    ori_test_items = entry_lists[offset: offset + cfg.test_size]
+    train_size = int(len(entry_lists) * cfg.train_imgs_ratio)
+    ori_training_items = entry_lists[0: train_size]
+    offset = train_size
+
+    validate_size = int(len(entry_lists) * cfg.valid_imgs_ratio)
+    ori_validate_items = entry_lists[offset: offset + validate_size]
+    offset += validate_size
+
+    test_size = offset + int(len(entry_lists) * cfg.test_imgs_ratio)
+    if test_size > len(entry_lists):
+        test_size = len(entry_lists) - 1
+
+    ori_test_items = entry_lists[offset: test_size]
 
     return ori_training_items, ori_validate_items, ori_test_items
 
@@ -183,7 +225,7 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
 
     img_env, img_txn, bbox_env, bbox_txn = None, None, None, None
 
-    if aug_flag is True:
+    if cfg.debug_gen_flag is False:
         img_env = lmdb.Environment(img_lmdb_path, map_size=1099511627776)
         img_txn = img_env.begin(write=True, buffers=True)
 
@@ -193,12 +235,13 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
     # Initialize random keys
     keys = np.arange(len(list))
     np.random.shuffle(keys)
+    fail_count = 0
 
     for count, entry in enumerate(list):
 
         # Print info every 100 iterations
         if count % 100 == 0:
-            print 'Currently processing on %d\n' % count
+            print 'Currently processing on %d' % count
 
         # Extract infomations
         basic_info = entry if aug_flag is False else entry[0]
@@ -214,15 +257,25 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
         zooming_magnitude = 0 if aug_flag is False else entry[3]
 
         # Read image
-        img_file_path = cfg.image_directory + image_name + '.jpg'
-        if not os.path.exists(img_file_path):
-            continue
+        img, img_size = None, None
+        if attri_label is not 0:
+            img_file_path = cfg.image_directory + image_name + '.jpg'
+            if not os.path.exists(img_file_path):
+                continue
 
-        img = cv.imread(img_file_path, cv.IMREAD_COLOR)
-        img_height, img_width, img_channels = img.shape
-        img_size = np.asarray((img_width, img_height)).flatten()
+            img = cv.imread(img_file_path, cv.IMREAD_COLOR)
+            img_height, img_width, img_channels = img.shape
+            img_size = np.asarray((img_width, img_height)).flatten()
+        else:   # Negative images
+            img_file_path = image_name
+            if not os.path.exists(img_file_path):
+                continue
 
-        offset = (offset_factor[0] * img_width, offset_factor[1] * img_height)
+            img = cv.imread(img_file_path, cv.IMREAD_COLOR)
+            img = cv.resize(img, (480, 300))
+            img_size = np.asarray((480, 300)).flatten()
+
+        offset = (offset_factor[0] * img_size[0], offset_factor[1] * img_size[1])
 
         # Add basic offset
         bbox = au.translate_box(bbox, img_size, offset)
@@ -243,26 +296,44 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
         random_offset = (trans_magnitude[0] * ext_bbox_size[0], trans_magnitude[1] * ext_bbox_size[1])
         ext_bbox = au.translate_box(ext_bbox, img_size, random_offset)
 
+        # if cfg.debug_gen_flag is True:
+        #     # Draw bounding box in image
+        #     cv.rectangle(img, (int(ext_bbox[0]), int(ext_bbox[1])),
+        #                             (int(ext_bbox[2]), int(ext_bbox[3])),
+        #                             (255, 0, 0), 2)
+        #
+        #     if cfg.enable_debug_gen_file is True:
+        #         # Write preview image to file
+        #         cv.imwrite(cfg.debug_gen_path + image_name + '.jpg', img)
+        #     else:
+        #         # Show in window
+        #         print 'Current:' + image_name + ' Label:' + str(attri_label)
+        #         cv.imshow('debug_preview', img)
+        #         cv.waitKey(0)
+        #     continue
+
+        # Check the bbox
+        if ext_bbox[3] < ext_bbox[1] or ext_bbox[2] < ext_bbox[0]:
+            fail_count += 1
+            continue
+
+        # Crop the image
+        crop_img = img[int(ext_bbox[1]): int(ext_bbox[3]), int(ext_bbox[0]): int(ext_bbox[2])]
+        if crop_img is None or img is None:
+            fail_count += 1
+            continue
+
+        # Resize image
+        crop_img = cv.resize(crop_img, cfg.output_img_size)
+
+        # Preview the crop_img if needed
         if cfg.debug_gen_flag is True:
-
-            # Draw bounding box in image
-            cv.rectangle(img, (int(ext_bbox[0]), int(ext_bbox[1])),
-                                    (int(ext_bbox[2]), int(ext_bbox[3])),
-                                    (255, 0, 0), 2)
-
-            if cfg.enable_debug_gen_file is True:
-                # Write preview image to file
-                cv.imwrite(cfg.debug_gen_path + image_name + '.jpg', img)
-            else:
-                # Show in window
-                print 'Current:' + image_name + ' Label:' + str(attri_label) + '\n'
-                cv.imshow('debug_preview', img)
-                cv.waitKey(0)
-
+            cv.imshow('debug_preview', crop_img)
+            cv.waitKey(0)
             continue
 
         # Push to lmdb
-        train_img_datum = lu.generate_img_datum(img, label=attri_label)
+        train_img_datum = lu.generate_img_datum(crop_img, label=attri_label)
         bbox_datum = lu.generate_array_datum(ext_bbox)
 
         # Write to lmdb every 10000 times
@@ -283,7 +354,9 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
         bbox_txn.commit()
         img_env.close()
         bbox_env.close()
-        print 'Push items into lmdb has finished, \nTotal: %d\n' % len(list)
+        print 'Push items into lmdb has finished.'
+
+    print 'Total: ' + str(len(list)) + ' Failures: ' + str(fail_count)
 
 
 def generate_csvfile(list, csvfile_path, aug_flag=False):
@@ -316,43 +389,52 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
         if count % 100 == 0:
             print 'Currently processing on %d\n' % count
 
-         # Extract infomations
-        basic_info = entry[0]
+        # Extract infomations
+        basic_info = entry if aug_flag is False else entry[0]
         image_name = basic_info[0]
         attri_label = basic_info[1]
         bbox = np.asarray((basic_info[2], basic_info[3])).flatten()
-        offset = np.asarray(basic_info[4]).flatten()
+        offset_factor = np.asarray(basic_info[4]).flatten()
         ext_factor = np.asarray(basic_info[5]).flatten()
+        minimal_width_ratio = basic_info[6]
 
-        flip_flag = False
-        trans_magnitude = (0, 0)
-        zooming_magnitude = 0
-
-        if aug_flag is True:
-            flip_flag = bool(entry[1])
-            trans_magnitude = entry[2]
-            zooming_magnitude = entry[3]
+        flip_flag = False if aug_flag is True else bool(entry[1])
+        trans_magnitude = (0, 0) if aug_flag is False else entry[2]
+        zooming_magnitude = 0 if aug_flag is False else entry[3]
 
         # Read image
-        img_file_path = cfg.image_directory + image_name + '.jpg'
-        if not os.path.exists(img_file_path):
-            continue
+        img, img_size = None, None
+        if attri_label is not 0:
+            img_file_path = cfg.image_directory + image_name + '.jpg'
+            if not os.path.exists(img_file_path):
+                continue
 
-        img = cv.imread(img_file_path, cv.IMREAD_COLOR)
-        img_height, img_width, img_channels = img.shape
-        img_size = np.asarray((img_width, img_height)).flatten()
+            img = cv.imread(img_file_path, cv.IMREAD_COLOR)
+            img_height, img_width, img_channels = img.shape
+            img_size = np.asarray((img_width, img_height)).flatten()
+        else:   # Negative images
+            img_file_path = image_name
+            if not os.path.exists(img_file_path):
+                continue
+
+            img = cv.imread(img_file_path, cv.IMREAD_COLOR)
+            img_size = np.asarray((320, 200)).flatten()
+
+        offset = (offset_factor[0] * img_size[0], offset_factor[1] * img_size[1])
 
         # Add basic offset
         bbox = au.translate_box(bbox, img_size, offset)
         # If need flip
         if flip_flag is True:
             img = cv.flip(img, 1)
-            bbox = (img_size[0] - bbox[0], bbox[1],
-                    img_size[0] - bbox[2], bbox[3])
+            bbox = (img_size[0] - bbox[2], bbox[1],
+                    img_size[0] - bbox[0], bbox[3])
 
         # Extend the crop region with random zooming
         ext_bbox = au.extend_bbox_xy(bbox, img_size,
-                                     ext_factor[0] * (1 + zooming_magnitude), ext_factor[1] * (1 + zooming_magnitude))
+                                     ext_factor[0] * (1 + zooming_magnitude), ext_factor[1] * (1 + zooming_magnitude),
+                                     xy_ratio=minimal_width_ratio)
+
         ext_bbox_size = (ext_bbox[2] - ext_bbox[0], ext_bbox[3] - ext_bbox[1])
 
         # Apply random translate
@@ -362,14 +444,16 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
         if cfg.debug_gen_flag is True:
 
             # Draw bounding box in image
-            img = cv.rectangle(img, (ext_bbox[0], ext_bbox[1]), (ext_bbox[2], ext_bbox[3]), (255, 0, 0), 2)
+            cv.rectangle(img, (int(ext_bbox[0]), int(ext_bbox[1])),
+                                    (int(ext_bbox[2]), int(ext_bbox[3])),
+                                    (255, 0, 0), 2)
 
             if cfg.enable_debug_gen_file is True:
                 # Write preview image to file
                 cv.imwrite(cfg.debug_gen_path + image_name + '.jpg', img)
             else:
-                # Show in windows
-                print 'Current:' + image_name + ' Label:' + str(attri_label) + '\n'
+                # Show in window
+                print 'Current:' + image_name + ' Label:' + str(attri_label)
                 cv.imshow('debug_preview', img)
                 cv.waitKey(0)
 
@@ -377,8 +461,8 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
 
         # Write to csv file
         csv_file.write('%s, %d, %f, %f, %f, %f, %d,\n' % (image_name, attri_label,
-                                                        ext_bbox[0], ext_bbox[1], ext_bbox[2]), ext_bbox[3],
-                                                        flip_flag)
+                                                          ext_bbox[0], ext_bbox[1], ext_bbox[2], ext_bbox[3],
+                                                          flip_flag))
 
     csv_file.close()
 
@@ -417,14 +501,17 @@ if __name__ == '__main__':
     ori_training_list, ori_validate_list, ori_test_list = get_item_entries(data_model, attributes)
 
     # Augment the training dataset
-    # aug_training_list = augment_training_data(ori_training_list)
+    aug_training_list = augment_training_data(ori_training_list)
 
     # Generate lmdbs
-    generate_lmdbs(ori_training_list, cfg.train_img_dbpath, cfg.train_bbox_dbpath, aug_flag=False)
+    print 'Start to create training lmdbs.'
+    generate_lmdbs(aug_training_list, cfg.train_img_dbpath, cfg.train_bbox_dbpath, aug_flag=True)
+
+    print 'Start to create validation lmdbs.'
     generate_lmdbs(ori_validate_list, cfg.valid_img_dbpath, cfg.valid_bbox_dbpath, aug_flag=False)
 
     # Generate test lists
-    # generate_csvfile(ori_test_list, cfg.test_list_path)
+    generate_csvfile(ori_test_list, cfg.test_list_path)
 
     # Destory window if needed
     if cfg.debug_gen_flag is True:

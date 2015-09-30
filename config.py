@@ -23,12 +23,21 @@ mysql_dbname = 'clothesimagedatabase'
 """
     Dataset configurations
 """
-# Set the image amount in dataset
-dataset_total_images = 60
+# Set the maximal image amount in dataset, if -1 means no limitation
+maximal_total_images = 400
 
 # Set the directories
 image_directory = '/home/luwei/Project/Datasets/Garment/database20141024/'
 trousers_image_directory = '/home/luwei/Project/Datasets/Garment/database-trousers/'
+
+# Negative image directories
+neg_image_directory = '/home/luwei/Project/Datasets/INRIA/'
+
+# Set max negative image will be used
+max_neg_img_count = 200
+
+# Resize dimension
+output_img_size = (227, 227)
 
 """
     Attributes file configurations
@@ -50,7 +59,7 @@ train_img_dbpath = lmdb_output_path + 'image_train.lmdb'
 train_bbox_dbpath = lmdb_output_path + 'bbox_train.lmdb'
 
 # Configure how many images will be used as training set
-train_size = 40
+train_imgs_ratio = 0.6
 
 # Path for outputting validation image lmdb
 valid_img_dbpath = lmdb_output_path + 'image_valid.lmdb'
@@ -59,20 +68,20 @@ valid_img_dbpath = lmdb_output_path + 'image_valid.lmdb'
 valid_bbox_dbpath = lmdb_output_path + 'bbox_valid.lmdb'
 
 # Configure how many images will be used as validate set
-validation_size = 15
+valid_imgs_ratio = 0.2
 
 # Configure test list path
-test_list_path = ''
+test_list_path = lmdb_output_path + 'test_img_list.txt'
 
 # Configure how many test image you want to put into test list
-test_size = dataset_total_images - (train_size + validation_size)
+test_imgs_ratio = 0.2
 
 """
     Dataset and augmentation configuration
 """
 
 # Debug flag of dataset generating
-debug_gen_flag = True
+debug_gen_flag = False
 
 # Enable or disable generate the debug data to file, if 'debug_gen_flag' is True
 enable_debug_gen_file = False
