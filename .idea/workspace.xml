@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a963c98-8434-4317-bfe5-7d2f930af917" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DNN_util/test_img_previews.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DNN_util/feature_extract.py" afterPath="$PROJECT_DIR$/DNN_util/feature_extract.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="attr_scripts.iws" />
@@ -580,7 +578,13 @@
       <option name="project" value="LOCAL" />
       <updated>1443649123862</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="&quot;the version that works on lmdb generation&quot;">
+      <created>1443669701686</created>
+      <option name="number" value="00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1443669701686</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView">
