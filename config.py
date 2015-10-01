@@ -49,6 +49,12 @@ attribute_file_path = 'attri_config.csv'
 """
     Output directories and path
 """
+# lmdb groups
+attri_lmdb_groups = 4
+
+# attribute lmdb prefix
+attri_lmdb_prefix = 'attri_'
+
 # Configure output lmdbs path
 lmdb_output_path = ''
 

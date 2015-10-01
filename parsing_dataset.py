@@ -20,6 +20,7 @@ from random import shuffle
 from attributes import parsing_attribute_configfile
 from datamodel import GarmentDataModel
 
+
 def get_item_entries(data_model, attributes):
     """
         Get the item entries for training, validation, test
@@ -203,7 +204,7 @@ def augment_training_data(training_list):
     return aug_training_list
 
 
-def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
+def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, attributes, aug_flag=False):
     """
         Generate lmdb database based on entry list
 
@@ -224,6 +225,10 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, aug_flag=False):
     lu.del_and_create(bbox_lmdb_path)
 
     img_env, img_txn, bbox_env, bbox_txn = None, None, None, None
+
+    # Initialize the attribute lmdbs
+    attri_lmdbs =
+
 
     if cfg.debug_gen_flag is False:
         img_env = lmdb.Environment(img_lmdb_path, map_size=1099511627776)
