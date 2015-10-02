@@ -10,7 +10,7 @@ model_define = '/home/luwei/Desktop/cnn/models/deploy.prototxt'
 image_mean = '/home/luwei/Desktop/cnn/models/image_mean.npy'     # need to be npy file
 output_dir_path = '/home/luwei/Desktop/cnn/output/'
 
-fliter_extract_list = ['conv2']
+fliter_extract_list = ['conv1']
 
 
 def show_image(im):

@@ -24,6 +24,7 @@ def del_and_create(database_file_path):
         shutil.rmtree(database_file_path)
     os.mkdir(database_file_path)
 
+
 def generate_img_datum(img, label):
 
     """
@@ -46,7 +47,8 @@ def generate_img_datum(img, label):
 
     return datum
 
-def generate_array_datum(array):
+
+def generate_array_datum(array, is_float=True):
 
     """
         Put the data of a array into Caffe's datum, this datum will be used in lmdb.
@@ -67,6 +69,9 @@ def generate_array_datum(array):
     datum.channels = len(array)
     datum.height = 1
     datum.width = 1
-    datum.float_data.extend(array.tolist())
+    if is_float is True:
+        datum.float_data.extend(array.astype(float).flatten())
+    else:
+        datum.data = array.tostring()
 
     return datum

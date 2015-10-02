@@ -49,6 +49,7 @@ def get_item_entries(data_model, attributes):
     for count, attribute_entry in enumerate(attributes):
 
         # Extract variables from attribute entry
+        lmdb_grop_index = attribute_entry['lmdb_group']
         component_name = attribute_entry['component']
         attribute_name = attribute_entry['attribute']
         attribute_label = int(attribute_entry['attri_label'])
@@ -92,7 +93,9 @@ def get_item_entries(data_model, attributes):
                     end_pt[1] = int(y)
 
             # Add image name and bounding box to entry
-            entry = (image_name, attribute_label, start_pt, end_pt, (offset_x, offset_y), (x_ext_factor, y_ext_factor), minimal_width_ratio)
+            entry = (image_name, attribute_label, start_pt, end_pt, (offset_x, offset_y), (x_ext_factor, y_ext_factor),
+                     minimal_width_ratio, lmdb_grop_index)
+
             entry_lists.append(entry)
 
     # If we need clamp the datasets:
@@ -227,8 +230,12 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, attributes, aug_flag=Fal
     img_env, img_txn, bbox_env, bbox_txn = None, None, None, None
 
     # Initialize the attribute lmdbs
-    attri_lmdbs =
-
+    attri_lmdbs = []
+    for i in range(0, cfg.attri_lmdb_groups):
+        lu.del_and_create(cfg.lmdb_output_path + 'attri_' + i + '.lmdb')
+        attri_lmdb_env = lmdb.Environment(bbox_lmdb_path, map_size=1099511627776)
+        attri_lmdb_txn = bbox_env.begin(write=True, buffers=True)
+        attri_lmdbs.append((attri_lmdb_env, attri_lmdb_txn))
 
     if cfg.debug_gen_flag is False:
         img_env = lmdb.Environment(img_lmdb_path, map_size=1099511627776)
@@ -251,11 +258,12 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, attributes, aug_flag=Fal
         # Extract infomations
         basic_info = entry if aug_flag is False else entry[0]
         image_name = basic_info[0]
-        attri_label = basic_info[1]
+        attri_label = int(basic_info[1])
         bbox = np.asarray((basic_info[2], basic_info[3])).flatten()
         offset_factor = np.asarray(basic_info[4]).flatten()
         ext_factor = np.asarray(basic_info[5]).flatten()
         minimal_width_ratio = basic_info[6]
+        lmdb_group_index = int(basic_info[7])
 
         flip_flag = False if aug_flag is True else bool(entry[1])
         trans_magnitude = (0, 0) if aug_flag is False else entry[2]
@@ -339,7 +347,10 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, attributes, aug_flag=Fal
 
         # Push to lmdb
         train_img_datum = lu.generate_img_datum(crop_img, label=attri_label)
-        bbox_datum = lu.generate_array_datum(ext_bbox)
+        bbox_datum = lu.generate_array_datum(ext_bbox, is_float=True)
+
+        # Put into attribute lmdb, not that the size of a lmdb is N+1, 1 for Background
+
 
         # Write to lmdb every 10000 times
         key = '%010d' % keys[count]
@@ -359,6 +370,11 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, attributes, aug_flag=Fal
         bbox_txn.commit()
         img_env.close()
         bbox_env.close()
+
+        for i in range(0, cfg.attri_lmdb_groups):
+            attri_lmdbs[i][1].commit()
+            attri_lmdbs[i][0].close()
+
         print 'Push items into lmdb has finished.'
 
     print 'Total: ' + str(len(list)) + ' Failures: ' + str(fail_count)
@@ -402,6 +418,7 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
         offset_factor = np.asarray(basic_info[4]).flatten()
         ext_factor = np.asarray(basic_info[5]).flatten()
         minimal_width_ratio = basic_info[6]
+        lmdb_group_index = basic_info[7]
 
         flip_flag = False if aug_flag is True else bool(entry[1])
         trans_magnitude = (0, 0) if aug_flag is False else entry[2]
