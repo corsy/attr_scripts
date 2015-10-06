@@ -1,0 +1,4 @@
+key; component; attribute; lmdb_index; index;
+Long; Skirt; Length; 3; 1;
+Short; Skirt; Length; 3; 2;
+Middle;Skirt; Length; 3; 3;

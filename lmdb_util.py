@@ -25,7 +25,7 @@ def del_and_create(database_file_path):
     os.mkdir(database_file_path)
 
 
-def generate_img_datum(img, label):
+def generate_img_datum(img, label=None):
 
     """
         Put the data of a array into Caffe's datum, this datum will be used in lmdb.
@@ -43,7 +43,8 @@ def generate_img_datum(img, label):
 
     img = img.swapaxes(0, 2).swapaxes(1, 2)
     datum = caffe.io.array_to_datum(img, 0)
-    datum.label = label
+    if label is not None:
+        datum.label = label
 
     return datum
 
@@ -70,7 +71,7 @@ def generate_array_datum(array, is_float=True):
     datum.height = 1
     datum.width = 1
     if is_float is True:
-        datum.float_data.extend(array.astype(float).flatten())
+        datum.float_data.extend(array.tolist())
     else:
         datum.data = array.tostring()
 

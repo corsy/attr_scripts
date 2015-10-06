@@ -35,9 +35,10 @@ def vis_square(data, padsize=1, padval=0):
 
 
 def load_net():
-    caffe.set_mode_cpu()
-    net = caffe.Net(model_define, model_path,
-                           caffe.TEST)
+    caffe.set_mode_gpu()
+    net = caffe.Net(model_define,
+                    model_path,
+                    caffe.TEST)
 
     # input pre-processing: 'data' is the name of the input blob == net.inputs[0]
     transformer = caffe.io.Transformer({'data': net.blobs['data'].data.shape})
@@ -63,6 +64,7 @@ if __name__ == '__main__':
     img = cv.imread(test_sample)
     preview_img = cv.resize(img, (227, 227))
 
+    # Run forward
     net.blobs['data'].data[...] = transformer.preprocess('data', caffe.io.load_image(test_sample))
     result = net.forward()
 

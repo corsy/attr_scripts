@@ -2,6 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1a963c98-8434-4317-bfe5-7d2f930af917" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/attri_index.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bar_test.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/parsing_dataset_multiloss.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attri_config.csv.bak" afterPath="$PROJECT_DIR$/attri_config.csv.bak" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/attributes.py" afterPath="$PROJECT_DIR$/attributes.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.py" afterPath="$PROJECT_DIR$/config.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DNN_util/feature_extract.py" afterPath="$PROJECT_DIR$/DNN_util/feature_extract.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lmdb_util.py" afterPath="$PROJECT_DIR$/lmdb_util.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parsing_dataset.py" afterPath="$PROJECT_DIR$/parsing_dataset.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="attr_scripts.iws" />
@@ -17,9 +26,11 @@
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/attr_scripts$draw_loss.coverage" NAME="draw_loss Coverage Results" MODIFIED="1443576717553" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DNN_util" />
-    <SUITE FILE_PATH="coverage/attr_scripts$parsing_dataset.coverage" NAME="parsing_dataset Coverage Results" MODIFIED="1443651655886" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/attr_scripts$feature_extract.coverage" NAME="feature_extract Coverage Results" MODIFIED="1443736347305" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DNN_util" />
+    <SUITE FILE_PATH="coverage/attr_scripts$bar_test.coverage" NAME="bar_test Coverage Results" MODIFIED="1444095578077" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/attr_scripts$feature_extract.coverage" NAME="feature_extract Coverage Results" MODIFIED="1443826815817" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DNN_util" />
+    <SUITE FILE_PATH="coverage/attr_scripts$parsing_dataset.coverage" NAME="parsing_dataset Coverage Results" MODIFIED="1443827711120" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/attr_scripts$test_img_previews.coverage" NAME="test_img_previews Coverage Results" MODIFIED="1443655122712" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DNN_util" />
+    <SUITE FILE_PATH="coverage/attr_scripts$parsing_dataset_multiloss.coverage" NAME="parsing_dataset_multiloss Coverage Results" MODIFIED="1444102314975" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -29,121 +40,166 @@
     <favorites_list name="attr_scripts" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="61" column="35" selection-start-line="61" selection-start-column="19" selection-end-line="61" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="parsing_dataset.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/parsing_dataset.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.125">
-              <caret line="155" column="7" selection-start-line="155" selection-start-column="7" selection-end-line="155" selection-end-column="7" />
-              <folding>
-                <element signature="e#186#206#0" expanded="true" />
-                <element signature="e#508#5587#0" expanded="false" />
-                <element signature="e#7949#14733#0" expanded="false" />
-                <element signature="e#14799#19347#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="lmdb_util.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lmdb_util.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="attributes.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/attributes.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="37" column="35" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pydev_monkey_qt.py" pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydev_monkey_qt.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="caffe_pb2.py" pinned="false" current-in-tab="false">
-        <entry file="file:///opt/caffe/python/caffe/proto/caffe_pb2.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="38.177418">
-              <caret line="943" column="42" selection-start-line="943" selection-start-column="31" selection-end-line="943" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="attri_config.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/attri_config.csv">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="6" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="19" selection-end-column="217" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test_img_list.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test_img_list.txt">
-          <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.90625">
-              <caret line="2346" column="76" selection-start-line="2346" selection-start-column="76" selection-end-line="2346" selection-end-column="76" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="attri_config.csv.bak" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/attri_config.csv.bak">
-          <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="24" selection-end-column="217" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="feature_extract.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/DNN_util/feature_extract.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5068493">
-              <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.49426752">
+      <split-first>
+        <leaf>
+          <file leaf-file-name="config.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/config.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.6641791">
+                  <caret line="182" column="0" selection-start-line="182" selection-start-column="0" selection-end-line="190" selection-end-column="15" />
+                  <folding>
+                    <marker date="1444103954892" expanded="true" signature="3525:3758" placeholder="SELECT cloth..clothingimagetag..." />
+                    <marker date="1444103954892" expanded="true" signature="3525:3789" placeholder="SELECT cloth..clothingimagetag..." />
+                    <marker date="1444103954892" expanded="true" signature="3525:3803" placeholder="SELECT cloth..clothingimagetag..." />
+                    <marker date="1444103954892" expanded="true" signature="3525:3809" placeholder="SELECT cloth..clothingimagetag..." />
+                    <marker date="1444103954892" expanded="true" signature="3525:3834" placeholder="SELECT cloth..clothingimagetag..." />
+                    <marker date="1444103954892" expanded="true" signature="4071:4282" placeholder="SELECT cloth..clothingimagetag..." />
+                    <marker date="1444103954892" expanded="true" signature="4573:4856" placeholder="SELECT cloth..clothingimagetag..." />
+                    <marker date="1444103954892" expanded="true" signature="5146:5435" placeholder="SELECT cloth..clothingimagetag..." />
+                    <marker date="1444103954892" expanded="true" signature="5725:5928" placeholder="SELECT cloth..clothingimagetag..." />
+                    <marker date="1444103954892" expanded="true" signature="5725:6007" placeholder="SELECT cloth..clothingimagetag..." />
+                    <marker date="1444103954892" expanded="true" signature="5725:6060" placeholder="SELECT cloth..clothingimagetag..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="attri_config.csv" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/attri_config.csv">
+              <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+                <state />
+              </provider>
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-2.8125">
+                  <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="parsing_dataset.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/parsing_dataset.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="48" column="20" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
+                  <folding>
+                    <element signature="e#186#206#0" expanded="true" />
+                    <element signature="e#5744#7965#0" expanded="false" />
+                    <element signature="e#8057#14841#0" expanded="false" />
+                    <element signature="e#14907#19455#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="lmdb_util.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/lmdb_util.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="numeric.py" pinned="false" current-in-tab="false">
+            <entry file="file:///usr/lib/python2.7/dist-packages/numpy/core/numeric.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="459" column="0" selection-start-line="459" selection-start-column="0" selection-end-line="459" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="attributes.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/attributes.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="44" column="64" selection-start-line="44" selection-start-column="64" selection-end-line="44" selection-end-column="64" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="attri_index.csv" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/attri_index.csv">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="attri_config.csv.bak" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/attri_config.csv.bak">
+              <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+                <state />
+              </provider>
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-8.90625">
+                  <caret line="19" column="217" selection-start-line="19" selection-start-column="217" selection-end-line="19" selection-end-column="217" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="feature_extract.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/DNN_util/feature_extract.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+                  <folding>
+                    <element signature="e#0#12#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="net_spec.py" pinned="false" current-in-tab="false">
+            <entry file="file:///opt/caffe/python/caffe/net_spec.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="28" column="47" selection-start-line="28" selection-start-column="47" selection-end-line="28" selection-end-column="47" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="parsing_dataset.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/parsing_dataset.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.4682836">
+                  <caret line="500" column="7" selection-start-line="500" selection-start-column="7" selection-end-line="500" selection-end-column="7" />
+                  <folding>
+                    <element signature="e#186#206#0" expanded="true" />
+                    <element signature="e#5744#7965#0" expanded="false" />
+                    <element signature="e#8057#14841#0" expanded="false" />
+                    <element signature="e#14907#19455#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="containers.py" pinned="false" current-in-tab="false">
+            <entry file="file:///usr/lib/python2.7/dist-packages/google/protobuf/internal/containers.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="122" column="0" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -163,16 +219,19 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/attributes.py" />
         <option value="$PROJECT_DIR$/augment_util.py" />
         <option value="$PROJECT_DIR$/DNN_util/draw_loss.py" />
         <option value="$PROJECT_DIR$/DNN_util/test_img_previews.py" />
-        <option value="$PROJECT_DIR$/config.py" />
         <option value="$PROJECT_DIR$/attri_config.csv" />
-        <option value="$PROJECT_DIR$/lmdb_util.py" />
+        <option value="$PROJECT_DIR$/attributes.py" />
         <option value="$PROJECT_DIR$/parsing_dataset.py" />
         <option value="$PROJECT_DIR$/attri_config.csv.bak" />
         <option value="$PROJECT_DIR$/DNN_util/feature_extract.py" />
+        <option value="$PROJECT_DIR$/attri_index.csv" />
+        <option value="$PROJECT_DIR$/bar_test.py" />
+        <option value="$PROJECT_DIR$/lmdb_util.py" />
+        <option value="$PROJECT_DIR$/parsing_dataset_multiloss.py" />
+        <option value="$PROJECT_DIR$/config.py" />
       </list>
     </option>
   </component>
@@ -184,7 +243,7 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="48" />
+    <option name="x" value="1968" />
     <option name="y" value="-4" />
     <option name="width" value="1873" />
     <option name="height" value="1205" />
@@ -213,7 +272,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -232,33 +290,21 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="attr_scripts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fast-rcnn-attributes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DNN_util" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FullScreen" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="true" />
+    <property name="SearchEverywhereHistoryKey" value="commit&#9;ACTION&#9;CheckinProject&#10;Push&#9;ACTION&#9;Vcs.Push&#10;conf&#9;FILE&#9;file:///home/luwei/PycharmProjects/fast-rcnn-attributes/config.py" />
   </component>
-  <component name="RunManager" selected="Python.feature_extract">
+  <component name="RunManager" selected="Python.parsing_dataset_multiloss">
     <configuration default="false" name="parsing_dataset" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -274,24 +320,6 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/parsing_dataset.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="draw_loss" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/DNN_util" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="fast-rcnn-attributes" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DNN_util/draw_loss.py" />
-      <option name="PARAMETERS" value="$USER_HOME$/log_09_29_2015_17_02_57.txt $USER_HOME$/loss.png" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
@@ -327,6 +355,42 @@
       <module name="fast-rcnn-attributes" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DNN_util/test_img_previews.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="parsing_dataset_multiloss" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="fast-rcnn-attributes" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/parsing_dataset_multiloss.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="bar_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="fast-rcnn-attributes" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bar_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -519,18 +583,20 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="4">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.parsing_dataset" />
-      <item index="1" class="java.lang.String" itemvalue="Python.draw_loss" />
-      <item index="2" class="java.lang.String" itemvalue="Python.feature_extract" />
-      <item index="3" class="java.lang.String" itemvalue="Python.test_img_previews" />
+      <item index="1" class="java.lang.String" itemvalue="Python.feature_extract" />
+      <item index="2" class="java.lang.String" itemvalue="Python.test_img_previews" />
+      <item index="3" class="java.lang.String" itemvalue="Python.parsing_dataset_multiloss" />
+      <item index="4" class="java.lang.String" itemvalue="Python.bar_test" />
     </list>
     <recent_temporary>
-      <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Python.feature_extract" />
-        <item index="1" class="java.lang.String" itemvalue="Python.test_img_previews" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Python.parsing_dataset_multiloss" />
+        <item index="1" class="java.lang.String" itemvalue="Python.bar_test" />
         <item index="2" class="java.lang.String" itemvalue="Python.parsing_dataset" />
-        <item index="3" class="java.lang.String" itemvalue="Python.draw_loss" />
+        <item index="3" class="java.lang.String" itemvalue="Python.feature_extract" />
+        <item index="4" class="java.lang.String" itemvalue="Python.test_img_previews" />
       </list>
     </recent_temporary>
   </component>
@@ -611,7 +677,13 @@
       <option name="project" value="LOCAL" />
       <updated>1443752774152</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="&quot;the version that works on lmdb generation&quot;">
+      <created>1443752778924</created>
+      <option name="number" value="00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1443752778924</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView">
@@ -624,25 +696,25 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="48" y="-4" width="1873" height="1205" extended-state="6" />
+    <frame x="1968" y="-4" width="1873" height="1205" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32910246" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32910246" sideWeight="0.5019199" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32910246" sideWeight="0.49808007" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22937444" sideWeight="0.49808007" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32728922" sideWeight="0.4958859" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33363554" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24569356" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32910246" sideWeight="0.4958859" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.10477235" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13878223" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32910246" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14152496" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.41341797" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41976428" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -672,7 +744,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/parsing_dataset.py</url>
-          <line>335</line>
+          <line>338</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
@@ -695,20 +767,193 @@
           <line>28</line>
           <option name="timeStamp" value="71" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/parsing_dataset.py</url>
+          <line>524</line>
+          <option name="timeStamp" value="72" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/bar_test.py</url>
+          <line>107</line>
+          <option name="timeStamp" value="102" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/parsing_dataset_multiloss.py</url>
+          <line>418</line>
+          <option name="timeStamp" value="111" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/parsing_dataset_multiloss.py</url>
+          <line>417</line>
+          <option name="timeStamp" value="112" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/parsing_dataset_multiloss.py</url>
+          <line>408</line>
+          <option name="timeStamp" value="113" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/parsing_dataset_multiloss.py</url>
+          <line>792</line>
+          <option name="timeStamp" value="114" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/parsing_dataset_multiloss.py</url>
+          <line>569</line>
+          <option name="timeStamp" value="115" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="72" />
+      <option name="time" value="118" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/attri_config.csv.bak">
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="217" selection-start-line="19" selection-start-column="217" selection-end-line="19" selection-end-column="217" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DNN_util/feature_extract.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///opt/caffe/python/caffe/net_spec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="47" selection-start-line="28" selection-start-column="47" selection-end-line="28" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="48" column="21" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="21" />
+          <folding>
+            <marker date="1444103954892" expanded="true" signature="3525:3758" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3789" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3803" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3809" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3834" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="4071:4282" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="4573:4856" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5146:5435" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:5928" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:6007" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:6060" placeholder="SELECT cloth..clothingimagetag..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parsing_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding>
+            <element signature="e#186#206#0" expanded="true" />
+            <element signature="e#5744#7965#0" expanded="false" />
+            <element signature="e#8057#14841#0" expanded="false" />
+            <element signature="e#14907#19455#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lmdb_util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attributes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="44" column="64" selection-start-line="44" selection-start-column="64" selection-end-line="44" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attri_config.csv">
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="35" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attri_index.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attri_config.csv.bak">
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="217" selection-start-line="19" selection-start-column="217" selection-end-line="19" selection-end-column="217" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DNN_util/feature_extract.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///opt/caffe/python/caffe/net_spec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="47" selection-start-line="28" selection-start-column="47" selection-end-line="28" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="12" column="12" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="12" />
-          <folding />
+          <folding>
+            <marker date="1444103954892" expanded="true" signature="3525:3758" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3789" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3803" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3809" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3834" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="4071:4282" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="4573:4856" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5146:5435" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:5928" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:6007" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:6060" placeholder="SELECT cloth..clothingimagetag..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -718,9 +963,9 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#186#206#0" expanded="true" />
-            <element signature="e#508#5587#0" expanded="false" />
-            <element signature="e#7949#14733#0" expanded="false" />
-            <element signature="e#14799#19347#0" expanded="false" />
+            <element signature="e#5744#7965#0" expanded="false" />
+            <element signature="e#8057#14841#0" expanded="false" />
+            <element signature="e#14907#19455#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -729,7 +974,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="33" column="26" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -737,9 +981,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="e#139#148#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -747,7 +989,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -755,7 +996,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1444103954892" expanded="true" signature="3525:3758" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3789" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3803" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3809" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3834" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="4071:4282" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="4573:4856" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5146:5435" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:5928" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:6007" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:6060" placeholder="SELECT cloth..clothingimagetag..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -765,9 +1018,9 @@
           <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
           <folding>
             <element signature="e#186#206#0" expanded="true" />
-            <element signature="e#508#5587#0" expanded="false" />
-            <element signature="e#7949#14733#0" expanded="false" />
-            <element signature="e#14799#19347#0" expanded="false" />
+            <element signature="e#5744#7965#0" expanded="false" />
+            <element signature="e#8057#14841#0" expanded="false" />
+            <element signature="e#14907#19455#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -776,7 +1029,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -784,7 +1036,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1444103954892" expanded="true" signature="3525:3758" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3789" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3803" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3809" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3834" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="4071:4282" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="4573:4856" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5146:5435" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:5928" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:6007" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:6060" placeholder="SELECT cloth..clothingimagetag..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -794,9 +1058,9 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#186#206#0" expanded="true" />
-            <element signature="e#508#5587#0" expanded="false" />
-            <element signature="e#7949#14733#0" expanded="false" />
-            <element signature="e#14799#19347#0" expanded="false" />
+            <element signature="e#5744#7965#0" expanded="false" />
+            <element signature="e#8057#14841#0" expanded="false" />
+            <element signature="e#14907#19455#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -819,7 +1083,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="111" column="26" selection-start-line="111" selection-start-column="26" selection-end-line="111" selection-end-column="26" />
-          <folding />
+          <folding>
+            <marker date="1444103954892" expanded="true" signature="3525:3758" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3789" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3803" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3809" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3834" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="4071:4282" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="4573:4856" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5146:5435" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:5928" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:6007" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:6060" placeholder="SELECT cloth..clothingimagetag..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -827,16 +1103,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="19" column="68" selection-start-line="19" selection-start-column="68" selection-end-line="19" selection-end-column="68" />
-          <folding>
-            <element signature="e#139#148#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datamodel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -845,7 +1111,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -853,7 +1118,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="1777" column="0" selection-start-line="1777" selection-start-column="0" selection-end-line="1777" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -861,7 +1125,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.0625">
           <caret line="1139" column="82" selection-start-line="1139" selection-start-column="68" selection-end-line="1139" selection-end-column="82" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -870,7 +1133,7 @@
         <state vertical-scroll-proportion="-14.875">
           <caret line="28" column="35" selection-start-line="28" selection-start-column="35" selection-end-line="28" selection-end-column="35" />
           <folding>
-            <element signature="e#47#57#0" expanded="true" />
+            <element signature="e#47#57#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -880,7 +1143,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding>
-            <element signature="e#100#116#0" expanded="true" />
+            <element signature="e#100#116#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -889,71 +1152,31 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.42910448">
           <caret line="437" column="0" selection-start-line="437" selection-start-column="0" selection-end-line="437" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_img_list.txt">
-      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.90625">
-          <caret line="2346" column="76" selection-start-line="2346" selection-start-column="76" selection-end-line="2346" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attributes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="37" column="35" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file:///opt/caffe/python/caffe/proto/caffe_pb2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="38.177418">
+        <state vertical-scroll-proportion="0.45890412">
           <caret line="943" column="42" selection-start-line="943" selection-start-column="31" selection-end-line="943" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config.py">
+    <entry file="file:///opt/caffe/python/caffe/net_spec.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="61" column="35" selection-start-line="61" selection-start-column="19" selection-end-line="61" selection-end-column="35" />
+          <caret line="28" column="47" selection-start-line="28" selection-start-column="47" selection-end-line="28" selection-end-column="47" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lmdb_util.py">
+    <entry file="file://$PROJECT_DIR$/DNN_util/feature_extract.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/parsing_dataset.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.125">
-          <caret line="155" column="7" selection-start-line="155" selection-start-column="7" selection-end-line="155" selection-end-column="7" />
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
           <folding>
-            <element signature="e#186#206#0" expanded="true" />
-            <element signature="e#508#5587#0" expanded="false" />
-            <element signature="e#7949#14733#0" expanded="false" />
-            <element signature="e#14799#19347#0" expanded="false" />
+            <element signature="e#0#12#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attri_config.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="19" selection-end-column="217" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -962,26 +1185,144 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="24" selection-end-column="217" />
+        <state vertical-scroll-proportion="-8.90625">
+          <caret line="19" column="217" selection-start-line="19" selection-start-column="217" selection-end-line="19" selection-end-column="217" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attri_index.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attributes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="44" column="64" selection-start-line="44" selection-start-column="64" selection-end-line="44" selection-end-column="64" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydev_monkey_qt.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.31439394">
+          <caret line="69" column="30" selection-start-line="69" selection-start-column="30" selection-end-line="69" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DNN_util/feature_extract.py">
+    <entry file="file://$PROJECT_DIR$/datamodel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5068493">
-          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="40" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python2.7/dist-packages/matplotlib/transforms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="828" column="0" selection-start-line="828" selection-start-column="0" selection-end-line="828" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python2.7/dist-packages/matplotlib/backends/backend_agg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="489" column="0" selection-start-line="489" selection-start-column="0" selection-end-line="489" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python2.7/dist-packages/numpy/core/numeric.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="459" column="0" selection-start-line="459" selection-start-column="0" selection-end-line="459" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lmdb_util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bar_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="91" column="54" selection-start-line="91" selection-start-column="54" selection-end-line="91" selection-end-column="54" />
           <folding>
-            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parsing_dataset_multiloss.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.46875">
+          <caret line="641" column="40" selection-start-line="641" selection-start-column="28" selection-end-line="641" selection-end-column="40" />
+          <folding>
+            <element signature="e#186#206#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attri_config.csv">
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.8125">
+          <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python2.7/dist-packages/google/protobuf/internal/containers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="122" column="0" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6641791">
+          <caret line="182" column="0" selection-start-line="182" selection-start-column="0" selection-end-line="190" selection-end-column="15" />
+          <folding>
+            <marker date="1444103954892" expanded="true" signature="3525:3758" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3789" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3803" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3809" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="3525:3834" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="4071:4282" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="4573:4856" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5146:5435" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:5928" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:6007" placeholder="SELECT cloth..clothingimagetag..." />
+            <marker date="1444103954892" expanded="true" signature="5725:6060" placeholder="SELECT cloth..clothingimagetag..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/parsing_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4682836">
+          <caret line="500" column="7" selection-start-line="500" selection-start-column="7" selection-end-line="500" selection-end-column="7" />
+          <folding>
+            <element signature="e#186#206#0" expanded="true" />
+            <element signature="e#5744#7965#0" expanded="false" />
+            <element signature="e#8057#14841#0" expanded="false" />
+            <element signature="e#14907#19455#0" expanded="false" />
           </folding>
         </state>
       </provider>
