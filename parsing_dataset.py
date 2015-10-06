@@ -525,7 +525,7 @@ if __name__ == '__main__':
     attri_indices = get_attribute_index(cfg.attri_index_file_path)
 
     # Parsing the data into training, validation, test list
-    ori_training_list, ori_validate_list, ori_test_list = get_item_entries(data_model, attributes)
+    # ori_training_list, ori_validate_list, ori_test_list = get_item_entries(data_model, attributes)
 
     # Augment the training dataset
     aug_training_list = augment_training_data(ori_training_list)

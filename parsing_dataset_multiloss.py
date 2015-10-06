@@ -744,6 +744,10 @@ def generate_entries(sql_querys, attribute_config, data_model):
     return ori_training_items, ori_validate_items, ori_test_items
 
 
+# TODO(Luwei): 1. Check 'None' of Placket
+# TODO(Luwei): 2. Notwork: minimal bounding box ratio
+# TODO(Luwei): 3. Check 'None' of Placket
+
 if __name__ == '__main__':
 
     """[TEST] preview window initialization
