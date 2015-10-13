@@ -33,139 +33,6 @@ def show_img(image, fig):
     fig.figimage(image, 0, 0)
     return fig
 
-def get_item_entries(data_model, attributes, attribute_indices):
-    """
-        Get the item entries for training, validation, test
-
-        Entries are collected in three list, note that this list
-        contains no entry belongs to dataset augmentation, in order
-        to augment the training dataset, function '' need to be
-        invoked.
-
-        INPUT:
-           PARAMS               | TYPE                   | DESCRIPTION
-        1. data_model           | GarmentDataModel       | Providing garment data model by executing MySQL query
-        2. attributes           | List                   | Contains attributes details restored in a dictionary
-                                                      (e.g. component name, attributes, query to be executed)
-        3. attribute_indices    | Dictionary
-
-        OUTPUT:
-        1. ori_training_items   | List                   | List that contains original training entry
-        2. ori_validate_list    | List                   | List that contains original validation entry
-        3. ori_test_list        | List                   | List that contains original test entry
-
-    """
-
-    # Variables
-    entry_lists = []
-
-    # Iterate the attribute to build list
-    for count, attribute_entry in enumerate(attributes):
-
-        # Extract variables from attribute entry
-        lmdb_grop_index = attribute_entry['lmdb_group']
-        component_name = attribute_entry['component']
-        attribute_name = attribute_entry['attribute']
-        attribute_label = int(attribute_entry['attri_label'])
-        sql_query = attribute_entry['query_string']
-        bbox_points = int(attribute_entry['bbox_pts'])
-        minimal_width_ratio = float(attribute_entry['ratio'])
-
-        # Extra info for pre-processing on bounding box
-        offset_x = float(attribute_entry['x_offset'])
-        offset_y = float(attribute_entry['y_offset'])
-        x_ext_factor = float(attribute_entry['x_ext_factor'])
-        y_ext_factor = float(attribute_entry['y_ext_factor'])
-
-        # Query the raw data from MySQL database
-        raw_data = data_model.query(sql_query)
-
-        for data in raw_data:
-
-            # Extract image name
-            image_name = data[0]
-
-            # Extract bounding bounding boxes
-            start_pt = np.asarray([sys.float_info.max, sys.float_info.max])
-            end_pt = np.asarray([sys.float_info.min, sys.float_info.min])
-
-            for n in range(0, bbox_points):
-                x = data[2*n + 1]
-                y = data[2*n + 2]
-
-                # Find the max and min for end and start point
-                if x < start_pt[0]:
-                    start_pt[0] = int(x)
-
-                if x >= end_pt[0]:
-                    end_pt[0] = int(x)
-
-                if y < start_pt[1]:
-                    start_pt[1] = int(y)
-
-                if y >= end_pt[1]:
-                    end_pt[1] = int(y)
-
-            # Add image name and bounding box to entry
-            entry = (image_name, attribute_label, start_pt, end_pt, (offset_x, offset_y), (x_ext_factor, y_ext_factor),
-                     minimal_width_ratio, lmdb_grop_index)
-
-            entry_lists.append(entry)
-
-    # If we need clamp the datasets:
-    if cfg.maximal_total_images != -1:
-        entry_lists = entry_lists[:cfg.maximal_total_images]
-
-    # Add negative images
-    neg_images = glob.glob(cfg.neg_image_directory + '*.jpg')
-    neg_images += glob.glob(cfg.neg_image_directory + '*.png')
-
-    for neg_img in neg_images[:cfg.max_neg_img_count]:
-        start_pt_x = np.random.randint(0, 350)
-        start_pt_y = np.random.randint(0, 200)
-
-        bbox_base_size = np.random.randint(40, 140)
-        bbox_size_x, bbox_size_y = 0, 0
-
-        # Clamp the size
-        bbox_size_x = 479 - start_pt[0] if start_pt_x + bbox_base_size >= 480 else bbox_base_size
-        bbox_size_y = 299 - start_pt[1] if start_pt_y + bbox_base_size >= 300 else bbox_base_size
-
-        start_pt = np.asarray([start_pt_x, start_pt_y])
-        end_pt = np.asarray([bbox_size_x + start_pt[0], bbox_size_y + start_pt[1]])
-
-        # Add to entry list
-        entry = (neg_img, 0, start_pt, end_pt, (0, 0), (1.0, 1.0), 1.0)
-        entry_lists.append(entry)
-
-        # if cfg.debug_gen_flag is True:
-        #     img = cv.imread(neg_img, cv.IMREAD_COLOR)
-        #     img = cv.resize(img, (480, 300))
-        #     cv.rectangle(img, (start_pt[0], start_pt[1]), (end_pt[0], end_pt[1]), (0, 255, 0), 1)
-        #     cv.imshow('debug_preview', img)
-        #     cv.waitKey(0)
-
-    # Shuffle the 'entry_list'
-    shuffle(entry_lists)
-
-    # Extract training, validation, test entry lists
-    train_size = int(len(entry_lists) * cfg.train_imgs_ratio)
-    ori_training_items = entry_lists[0: train_size]
-    offset = train_size
-
-    validate_size = int(len(entry_lists) * cfg.valid_imgs_ratio)
-    ori_validate_items = entry_lists[offset: offset + validate_size]
-    offset += validate_size
-
-    test_size = offset + int(len(entry_lists) * cfg.test_imgs_ratio)
-    if test_size > len(entry_lists):
-        test_size = len(entry_lists) - 1
-
-    ori_test_items = entry_lists[offset: test_size]
-
-    return ori_training_items, ori_validate_items, ori_test_items
-
-
 def augment_training_data(training_list):
     """
         Augment the training data
@@ -258,10 +125,11 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, lmdb_prefix, aug_flag=Fa
         bbox_txn = bbox_env.begin(write=True, buffers=True)
 
         for i in range(0, len(cfg.attributes_index)):
-            lu.del_and_create(cfg.lmdb_output_path + 'group_' + str(i) + '_' + lmdb_prefix +'.lmdb')
-            attri_lmdb_env = lmdb.Environment(bbox_lmdb_path, map_size=1099511627776)
+            lmdb_path = cfg.lmdb_output_path + 'group_' + str(i) + '_' + lmdb_prefix +'.lmdb'
+            lu.del_and_create(lmdb_path)
+            attri_lmdb_env = lmdb.Environment(lmdb_path, map_size=1099511627776)
             attri_lmdb_txn = attri_lmdb_env.begin(write=True, buffers=True)
-            attri_lmdbs.append((attri_lmdb_env, attri_lmdb_txn))
+            attri_lmdbs.append([attri_lmdb_env, attri_lmdb_txn])
 
     # Initialize random keys
     keys = np.arange(len(list))
@@ -282,6 +150,7 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, lmdb_prefix, aug_flag=Fa
         offset_factor = np.asarray(basic_info[3], dtype=float).flatten()
         ext_factor = np.asarray(basic_info[4], dtype=float).flatten()
         minimal_width_ratio = float(basic_info[5])
+        comp_idx = int(basic_info[6])
 
         flip_flag = False if aug_flag is True else bool(entry[1])
         trans_magnitude = (0, 0) if aug_flag is False else entry[2]
@@ -290,9 +159,8 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, lmdb_prefix, aug_flag=Fa
         # Create attribute label matrix
         attri_idx_groups = []
         for group in range(0, len(cfg.attributes_index)):
-            group_len = len(cfg.attributes_index[group])
-            labels = np.zeros(group_len+1, dtype=int)
-            labels[0] = 1      # Default index: Background
+            group_len = cfg.attributes_index[group]['count']
+            labels = 0      # Default index: Background
             attri_idx_groups.append(labels)
 
         # Modify attri_idx_groups
@@ -300,14 +168,13 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, lmdb_prefix, aug_flag=Fa
             for attribute in attri_labels:
                 group_idx = attribute['group_idx']
                 attri_idx = attribute['attri_idx']
-                group_len = len(cfg.attributes_index[group_idx])
-                new_labels = np.zeros(group_len + 1, dtype=int)
-                new_labels[attri_idx] = 1
+                group_len = cfg.attributes_index[group_idx]['count']
+                new_labels = attri_idx
                 attri_idx_groups[group_idx] = new_labels
 
         # Read image
         img, img_size = None, None
-        if attri_labels is not 0:
+        if attri_labels is not None:
             img_file_path = cfg.image_directory + image_name + '.jpg'
             if not os.path.exists(img_file_path):
                 continue
@@ -385,7 +252,7 @@ def generate_lmdbs(list, img_lmdb_path, bbox_lmdb_path, lmdb_prefix, aug_flag=Fa
             continue
 
         # Push to lmdb
-        train_img_datum = lu.generate_img_datum(crop_img)
+        train_img_datum = lu.generate_img_datum(crop_img, label=comp_idx)
         bbox_datum = lu.generate_array_datum(ext_bbox, is_float=True)
 
         # Write to lmdb every 10000 times
@@ -450,7 +317,6 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
     fail_count = 0
 
     for count, entry in enumerate(list):
-
         # Print info every 100 iterations
         if count % 100 == 0:
             print 'Currently processing on %d' % count
@@ -463,6 +329,7 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
         offset_factor = np.asarray(basic_info[3], dtype=float).flatten()
         ext_factor = np.asarray(basic_info[4], dtype=float).flatten()
         minimal_width_ratio = float(basic_info[5])
+        comp_idx = int(basic_info[6])
 
         flip_flag = False if aug_flag is True else bool(entry[1])
         trans_magnitude = (0, 0) if aug_flag is False else entry[2]
@@ -471,24 +338,14 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
         # Create attribute label matrix
         attri_idx_groups = []
         for group in range(0, len(cfg.attributes_index)):
-            group_len = len(cfg.attributes_index[group])
+            group_len = cfg.attributes_index[group]['count']
             labels = np.zeros(group_len+1, dtype=int)
             labels[0] = 1      # Default index: Background
             attri_idx_groups.append(labels)
 
-        # Modify attri_idx_groups
-        if attri_labels is not None:
-            for attribute in attri_labels:
-                group_idx = attribute['group_idx']
-                attri_idx = attribute['attri_idx']
-                group_len = len(cfg.attributes_index[group_idx])
-                new_labels = np.zeros(group_len + 1, dtype=int)
-                new_labels[attri_idx] = 1
-                attri_idx_groups[group_idx] = new_labels
-
         # Read image
         img, img_size = None, None
-        if attri_labels is not 0:
+        if attri_labels is not None:
             img_file_path = cfg.image_directory + image_name + '.jpg'
             if not os.path.exists(img_file_path):
                 continue
@@ -588,7 +445,6 @@ def generate_csvfile(list, csvfile_path, aug_flag=False):
         print 'Push items into csv file has finished, \nTotal: %d\n' % len(list)
 
 
-# TODO(Luwei): New routines
 def generate_entries(sql_querys, attribute_config, data_model):
     # Variables
     entry_lists = []
@@ -607,6 +463,7 @@ def generate_entries(sql_querys, attribute_config, data_model):
         # Run the query to get datas
         sql_query = infos['query']
         bbox_points = infos['points']
+        component_id = infos['comp_id']
         raw_data = data_model.query(sql_query)
         for data in raw_data:
 
@@ -674,7 +531,8 @@ def generate_entries(sql_querys, attribute_config, data_model):
                      (start_pt, end_pt),        # Bounding box
                      attri_offset,              # Relative Offset
                      attri_ext_factor,          # Extend factor
-                     attri_ratio                # Minimal ratio of height/width
+                     attri_ratio,               # Minimal ratio of height/width
+                     component_id
                      )
 
             # Add to entry list
@@ -682,6 +540,9 @@ def generate_entries(sql_querys, attribute_config, data_model):
             total_counts += 1
 
         print 'Component:' + component + ' total:' + str(total_counts) + ' ignored:' + str(ignore_counts) + ' images.'
+
+    # Shuffle the 'entry_list'
+    shuffle(entry_lists)
 
     # If we need clamp the dataset:
     # set cfg.maximal_total_images equals to -1 will not clamp the dataset
@@ -711,7 +572,8 @@ def generate_entries(sql_querys, attribute_config, data_model):
                 (start_pt, end_pt),         # Bounding box
                 (0.0, 0.0),                 # Relative Offset
                 (1.0, 1.0),                 # Extend factor
-                1.0                         # Minimal ratio of height/width
+                1.0,                         # Minimal ratio of height/width
+                0
                 )
 
         entry_lists.append(entry)
@@ -744,9 +606,50 @@ def generate_entries(sql_querys, attribute_config, data_model):
     return ori_training_items, ori_validate_items, ori_test_items
 
 
-# TODO(Luwei): 1. Check 'None' of Placket
-# TODO(Luwei): 2. Notwork: minimal bounding box ratio
-# TODO(Luwei): 3. Check 'None' of Placket
+def merge_entries(entries_list):
+
+    # Add to a dictionary to reduce repeat items
+    entries_dict = {}
+    for entry in entries_list:
+        img_name = entry[0]
+
+        if entries_dict.has_key(img_name):
+            entries_dict[img_name].append(img_name)
+        else:
+            entries_dict[img_name] = []
+
+    # Analysis and Create new entry that covers whole image
+    i = 0
+    while i < len(entries_dict):
+        img_name = entries_dict.keys()[i]
+        entry_set = entries_dict[img_name]
+
+        # Iterate the entry to get the maximal bounding box
+        start_pt = [sys.float_info.max, sys.float_info.max]
+        end_pt = [sys.float_info.min, sys.float_info.min]
+
+        # If not negative image
+
+        for entry in entry_set:
+
+            bbox = np.asarray(entry[2]).flatten()
+
+            if entry[1] is not None:
+                # Extend the crop region with random zooming
+                ext_bbox = au.extend_bbox_xy(bbox, img_size,
+                                             ext_factor[0] * (1 + zooming_magnitude), ext_factor[1] * (1 + zooming_magnitude),
+                                             xy_ratio=minimal_width_ratio)
+
+                ext_bbox_size = (ext_bbox[2] - ext_bbox[0], ext_bbox[3] - ext_bbox[1])
+
+                # Apply random translate
+                random_offset = (trans_magnitude[0] * ext_bbox_size[0], trans_magnitude[1] * ext_bbox_size[1])
+                ext_bbox = au.translate_box(ext_bbox, img_size, random_offset)
+            else:
+
+
+
+    return None
 
 if __name__ == '__main__':
 
@@ -775,26 +678,36 @@ if __name__ == '__main__':
                                   cfg.mysql_dbname)
 
     # Parsing the data into training, validation, test list
-    # TODO(luwei): obsolate:
-    # ori_training_list, ori_validate_list, ori_test_list = get_item_entries(data_model, attributes)
     ori_training_list, ori_validate_list, ori_test_list = generate_entries(cfg.sql_queries,
                                                                            cfg.attributes_index,
                                                                            data_model)
 
-    # Augment the training dataset
-    aug_training_list = augment_training_data(ori_training_list)
+    print 'Debug'
 
-    # Generate lmdbs
-    print 'Start to create training lmdbs.'
-    generate_lmdbs(ori_training_list, cfg.train_img_dbpath, cfg.train_bbox_dbpath, lmdb_prefix='train', aug_flag=False)
+    # # Generate test lists
+    # print '> Writing training list to file: ' + cfg.lmdb_output_path + 'train_list.txt'
+    # generate_csvfile(ori_training_list, cfg.lmdb_output_path + 'train_list.txt')
+    #
+    # print '> Writing validation list to file: ' + cfg.lmdb_output_path + 'val_list.txt'
+    # generate_csvfile(ori_validate_list, cfg.lmdb_output_path + 'val_list.txt')
+    #
+    # print '> Writing test list to file: ' + cfg.lmdb_output_path + 'test_list.txt'
+    # generate_csvfile(ori_test_list, cfg.lmdb_output_path + 'test_list.txt')
+    #
+    # # Augment the training dataset
+    # aug_training_list = augment_training_data(ori_training_list)
+    # print '> Augmented ' + str(len(aug_training_list)) + ' training images'
+    #
+    # aug_validate_list = augment_training_data(ori_validate_list)
+    # print '> Augmented ' + str(len(aug_validate_list)) + ' validate images'
+    #
+    # # Generate lmdbs
+    # print 'Start to create training lmdbs.'
+    # # generate_lmdbs(ori_training_list, cfg.train_img_dbpath, cfg.train_bbox_dbpath, lmdb_prefix='train', aug_flag=False)
     # generate_lmdbs(aug_training_list, cfg.train_img_dbpath, cfg.train_bbox_dbpath, lmdb_prefix='train', aug_flag=True)
-
-    print 'Start to create validation lmdbs.'
-    # generate_lmdbs(ori_validate_list, cfg.valid_img_dbpath, cfg.valid_bbox_dbpath, lmdb_prefix='valid', aug_flag=False)
-
-    # Generate test lists
-    generate_csvfile(ori_test_list, cfg.lmdb_output_path + 'train_list.txt')
-    generate_csvfile(ori_test_list, cfg.test_list_path)
+    #
+    # print 'Start to create validation lmdbs.'
+    # generate_lmdbs(aug_validate_list, cfg.valid_img_dbpath, cfg.valid_bbox_dbpath, lmdb_prefix='valid', aug_flag=True)
 
     # Destory window if needed
     if cfg.debug_gen_flag is True:

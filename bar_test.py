@@ -28,13 +28,15 @@ class BarPlotor:
             self.attribute_labels = []
             for i in range(0, len(cfg.attributes_index)):
                 group = cfg.attributes_index[i]
-                self.attribute_labels.append('Background')
+                self.attribute_labels.append('bg')
 
                 temp = []
 
                 for key,values in group.iteritems():
+
                     # Push key and its attribute_idx
-                    temp.append((key,   values[0][1]))
+                    if key is not 'count' and values[0][1] != 0:
+                        temp.append((key,   values[0][1]))
 
                 temp.sort(cmp=compare)
 
@@ -89,7 +91,7 @@ class BarPlotor:
         xTickMarks = [i for i in self.attribute_labels]
         ax.set_xticks(ind)
         xtickNames = ax.set_xticklabels(xTickMarks)
-        plt.setp(xtickNames, rotation=30, fontsize=10)
+        plt.setp(xtickNames, rotation=30, fontsize=8)
         plt.savefig('test.png')
         return fig
 

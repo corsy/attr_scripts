@@ -24,7 +24,7 @@ mysql_dbname = 'clothesimagedatabase'
     Dataset configurations
 """
 # Set the maximal image amount in dataset, if -1 means no limitation
-maximal_total_images = 200
+maximal_total_images = -1
 
 # Set the directories
 image_directory = '/home/luwei/Project/Datasets/Garment/database20141024/'
@@ -34,7 +34,7 @@ trousers_image_directory = '/home/luwei/Project/Datasets/Garment/database-trouse
 neg_image_directory = '/home/luwei/Project/Datasets/INRIA/'
 
 # Set max negative image will be used
-max_neg_img_count = 200
+max_neg_img_count = 600
 
 # Resize dimension
 output_img_size = (227, 227)
@@ -52,7 +52,7 @@ attri_index_file_path = 'attri_index.csv'
     Output directories and path
 """
 # lmdb groups
-attri_lmdb_groups = 4
+attri_lmdb_groups = 15
 
 # attribute lmdb prefix
 attri_lmdb_prefix = 'attri_'
@@ -103,7 +103,7 @@ base_bbox_zooming_factor = 1.3
 # Set the factor of augment
 # e.g. if set 'augment_factor' = 20, their will be
 # 20 more images per training item
-augment_size = 4
+augment_size = 10
 
 # Set what percentage of data need to be flipped, if set 'flip_percent' = 1.0
 # all item will be flipped, default = 0.5
@@ -141,54 +141,47 @@ color_jitter_factor = 1.0
     SQL Queries
 """
 sql_queries = {
+    'Skirt': { 'query': 'SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y, SkirtLength, SkirtShape, SkirtPleat \
+                         FROM clothingimagetag, skirtlabel \
+                         WHERE clothingimagetag.ID_image=skirtlabel.ID_image \
+                         AND SkirtLength!="None"',
+               'comp_id': 1,                 # Component ID
+               'points': 2,
+               'groups': [0, 1, 2],         # Contains information in 'attributes_index'
+               'trans' : 0,                 # Refer to Group 0 for bbox transformation information
+             },
 
-    # 'Skirt': { 'query': 'SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y, SkirtLength, SkirtShape, SkirtPleat \
-    #                      FROM clothingimagetag, skirtlabel \
-    #                      WHERE clothingimagetag.ID_image=skirtlabel.ID_image \
-    #                      AND SkirtLength!="None"',
-    #            'points': 2,
-    #            'groups': [0, 1, 2],         # Contains information in 'attributes_index'
-    #            'trans' : 0,                 # Refer to Group 0 for bbox transformation information
-    #          },
+    'Collar': { 'query': 'SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y, CollarType  \
+                         FROM clothingimagetag, collarlabel \
+                         WHERE clothingimagetag.ID_image=collarlabel.ID_image \
+                         ',
+               'comp_id': 2,
+               'points': 2,
+               'groups': [3],               # Contains information in 'attributes_index'
+               'trans' : 3                  # Refer to Group 0 for bbox transformation information
+             },
 
-    # 'Collar': { 'query': 'SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y, CollarType  \
-    #                      FROM clothingimagetag, collarlabel \
-    #                      WHERE clothingimagetag.ID_image=collarlabel.ID_image \
-    #                      ',
-    #            'points': 2,
-    #            'groups': [0],               # Contains information in 'attributes_index'
-    #            'trans' : 0                  # Refer to Group 0 for bbox transformation information
-    #          },
+    'Placket': { 'query': 'SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y,  \
+                         p5_x, p5_y, p6_x, p6_y,Placket1, ButtonType  \
+                         FROM clothingimagetag, upperlabel \
+                         WHERE clothingimagetag.ID_image=upperlabel.ID_image \
+                         ',
+               'comp_id': 3,
+               'points': 6,
+               'groups': [4, 6],               # Contains information in 'attributes_index'
+               'trans' : 6                  # Refer to Group 0 for bbox transformation information
+             },
 
-    # 'Placket': { 'query': 'SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y,  \
-    #                      p5_x, p5_y, p6_x, p6_y,Placket1   \
-    #                      FROM clothingimagetag, upperlabel \
-    #                      WHERE clothingimagetag.ID_image=upperlabel.ID_image \
-    #                      ',
-    #            'points': 6,
-    #            'groups': [3],               # Contains information in 'attributes_index'
-    #            'trans' : 3                  # Refer to Group 0 for bbox transformation information
-    #          },
-    #
     'Sleeve': { 'query': 'SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y,  \
                          p5_x, p5_y, p6_x, p6_y, SleeveLength  \
                          FROM clothingimagetag, sleevelabel \
                          WHERE clothingimagetag.ID_image=sleevelabel.ID_image \
                          ',
+               'comp_id': 4,
                'points': 6,
-               'groups': [0],               # Contains information in 'attributes_index'
-               'trans' : 0                  # Refer to Group 0 for bbox transformation information
+               'groups': [5],               # Contains information in 'attributes_index'
+               'trans' : 5                  # Refer to Group 0 for bbox transformation information
              },
-    #
-    # 'Button': { 'query': 'SELECT clothingimagetag.ID_Image, p1_x, p1_y, p2_x, p2_y, p3_x, p3_y, p4_x, p4_y, \
-    #                      p5_x, p5_y, p6_x, p6_y ButtonType \
-    #                      FROM clothingimagetag, upperlabel \
-    #                      WHERE clothingimagetag.ID_image=upperlabel.ID_image \
-    #                      ',
-    #            'points': 6,
-    #            'groups': [7],               # Contains information in 'attributes_index'
-    #            'trans' : 7                  # Refer to Group 0 for bbox transformation information
-    #          },
 
 }
 
@@ -199,54 +192,62 @@ attributes_index = [
     # name     # (group_idx, label_idx),  # bbox transformation
                                           # (x_offset; y_offset; x_ext_factor; y_ext_factor, x_y_ratio)
 
-    # # Group 1: Skirt length
-    # {
-    # 'Chang'         : [(0, 1),               (0,    0, 1.1, 1.1, 0.8)],
-    # 'Duan'          : [(0, 2),               (0, 0.05, 1.2, 1.6, 0.8)],
-    # 'Zhong'         : [(0, 3),               (0, 0.05, 1.2, 1.4, 0.8)],
-    # },
-    #
-    # # Group 2: Shape of Skirt
-    # {
-    # 'Denglongzhuang': [(1, 1),               None],                      # 'None' means no transformation
-    # 'Labazhuang'    : [(1, 2),               None],
-    # 'Zhitongzhuang' : [(1, 3),               None],
-    # },
-    #
-    # # Group 3: Pleat of Skirt
-    # {
-    # 'None'          : [(2, 1),               None],
-    # 'You'           : [(2, 2),               None],
-    # },
+    # Group 1: Skirt length
+    {
+    'count': 3,
+    'Chang'         : [(0, 1),               (0,    0, 1.1, 1.1, 0.8)],
+    'Duan'          : [(0, 2),               (0, 0.05, 1.2, 1.6, 0.8)],
+    'Zhong'         : [(0, 3),               (0, 0.05, 1.2, 1.4, 0.8)],
+    },
 
-    # # Group 4: Collar type
-    # {
-    # 'Fanling'       : [(3, 1),               (0, 0, 1.8, 1.8, 0.8)],
-    # 'Liling'        : [(3, 2),               (0, 0, 1.8, 1.8, 0.8)],
-    # 'None'          : [(3, 3),               (0, 0, 1.8, 1.8, 0.8)],
-    # },
-    #
+    # Group 2: Shape of Skirt
+    {
+    'count': 3,
+    'Denglongzhuang': [(1, 1),               None],                      # 'None' means no transformation
+    'Labazhuang'    : [(1, 2),               None],
+    'Zhitongzhuang' : [(1, 3),               None],
+    },
+
+    # Group 3: Pleat of Skirt
+    {
+    'count': 2,
+    'None'          : [(2, 1),               None],
+    'You'           : [(2, 2),               None],
+    },
+
+    # Group 4: Collar type
+    {
+    'count': 3,
+    'Fanling'       : [(3, 1),               (0, 0, 1.8, 1.8, 0.8)],
+    'Liling'        : [(3, 2),               (0, 0, 1.8, 1.8, 0.8)],
+    'None'          : [(3, 3),               (0, 0, 1.8, 1.8, 0.8)],
+    },
+
     # Group 5: Placket type
-    # {
-    # 'Duijin'        : [(4, 1),               (0, 0, 0.7, 0.5, 0.7)],
-    # 'None'          : [(4, 0),               (0, 0, 0.7, 0.5, 0.7)],
-    # },
-    #
+    {
+    'count': 1,
+    'Duijin'        : [(4, 1),               (0, 0, 0.7, 0.5, 0.7)],
+    'None'          : [(4, 0),               (0, 0, 0.7, 0.5, 0.7)],
+    },
+
     # Group 6: Sleeve Length
     {
+    'count': 2,
     'Changxiu'      : [(0, 1),           (0, -0.05, 1.4, 1.3, 0.7)],
     'Duanxiu'       : [(0, 2),            (0, 0.10, 2.2, 3.5, 0.7)],
     },
-    #
-    # # Group 7: Button Type
-    # {
-    # 'Danpaikou'     : [(7, 1),            (0, -0.1, 0.7, 0.6, 0.8)],
-    # 'Lalian'        : [(7, 2),            (0, -0.1, 0.7, 0.6, 0.8)],
-    # 'None'          : [(7, 3),            (0, -0.1, 0.7, 0.6, 0.8)],
-    # }
+
+    # Group 7: Button Type
+    {
+    'count': 2,
+    'None'          : [(7, 0),            (0, -0.1, 0.7, 0.8, 0.8)],
+    'Danpaikou'     : [(7, 1),            (0, -0.1, 0.7, 0.8, 0.8)],
+    'Lalian'        : [(7, 2),            (0, -0.1, 0.7, 0.8, 0.8)],
+    }
 ]
 
 attri_replace_table = {
     # ori   # replacee
     'Dajin':'Duijin',
+    'Shuangpaikou': 'Danpaikou'
 }
